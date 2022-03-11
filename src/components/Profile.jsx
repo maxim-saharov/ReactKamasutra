@@ -18,10 +18,10 @@ const Profile = () => {
                </div>
                <div>
                   <div>
-                     ....Post 1
+                     ....Post 101
                   </div>
                   <div>
-                     ....Post 2
+                     ....Post 201
                   </div>
                </div>
             </div> 
