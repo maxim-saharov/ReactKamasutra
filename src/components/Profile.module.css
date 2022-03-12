@@ -1,0 +1,14 @@
+
+.content {
+    grid-area: c;
+    background-color: blue;
+    font-weight: bold;
+ }
+ 
+ .myPosts {
+    padding: 10px;
+ }
+ 
+ .item{
+   color: rgb(218, 49, 161);
+}

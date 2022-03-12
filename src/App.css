@@ -11,32 +11,6 @@
    /* grid-gap: 10px; */
 }
 
-.header {
-   grid-area: h;
-   background-color: aqua;
-}
-
-.header img {
-   width: 70px;
-}
-
-.nav {
-   padding: 10px;
-   grid-area: n;
-   background-color: peru;
-}
-
-.content {
-   grid-area: c;
-   background-color: blue;
-}
-
-.content .My-Posts {
-   padding: 10px;
-}
-
-
-
 /* ul li{
   list-style-type: georgian;
   font-size: 26px;

@@ -1,0 +1,20 @@
+.nav {
+    padding: 10px;
+    grid-area: n;
+    background-color: peru;
+ }
+
+ .item{
+     color: rgba(51, 51, 163);
+     font-weight: bold;
+ }
+
+ .item.active{
+    font-style: italic;
+    text-decoration: underline;
+}
+
+/* такая запись тоже самое что выше - если потом в жсх мы через пробел указываем два стиля  */
+/* .active{
+    font-weight:100;
+} */
