@@ -4,11 +4,12 @@
     background-color: blue;
     font-weight: bold;
  }
- 
- .myPosts {
+
+ .photoBlock img {
+   height: 200px;
+}
+
+ .textBlock {
     padding: 10px;
  }
  
- .item{
-   color: rgb(218, 49, 161);
-}
