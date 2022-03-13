@@ -1,10 +1,4 @@
 
-.content {
-    grid-area: c;
-    background-color: blue;
-    font-weight: bold;
- }
-
  .photoBlock img {
    height: 200px;
 }
