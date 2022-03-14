@@ -1,22 +1,22 @@
 .app-wrapper {
-    width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-areas:
+   width: 1200px;
+   margin: 0 auto;
+   display: grid;
+   grid-template-areas:
       "h h"
       "n c";
 
-    grid-template-rows: 60px 1fr;
-    grid-template-columns: 120px 10fr;
-    /* grid-gap: 10px; */
+   grid-template-rows: 60px 1fr;
+   grid-template-columns: 120px 10fr;
+   /* grid-gap: 10px; */
 }
 
 .app-wrapper-content {
-    grid-area: c;
-    background-color: #0000ff;
-    font-weight: bold;
-}
 
+   grid-area: c;
+   background-color: #0000ff;
+   font-weight: bold;
+}
 
 /* ul li{
   list-style-type: georgian;
