@@ -1,23 +1,17 @@
 import MyPosts from './MyPosts/MyPosts';
 import s from './Profile.module.css';
+import React from "react";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 const Profile = () => {
-    return (
-        <div>
-            <div className={s.photoBlock}>
-                <img src='https://html5css.ru/css/img_forest.jpg'/>
-            </div>
+   return (
 
-            <div className={s.textBlock}>
-                {/* эту обвертку я сам сделал  */}
-                <div>
-                    Avatar + description
-                </div>
-                <MyPosts/>
-            </div>
+      <div>
+         <ProfileInfo/>
+         <MyPosts/>
+      </div>
 
-        </div>
-    );
+   );
 }
 
 export default Profile;

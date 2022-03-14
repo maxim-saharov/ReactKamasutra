@@ -1,18 +1,23 @@
 .nav {
-    padding: 10px;
     grid-area: n;
     background-color: peru;
- }
-
- .item{
-     color: rgba(51, 51, 163);
-     font-weight: bold;
- }
-
- .item.active{
-    font-style: italic;
-    text-decoration: underline;
+    padding: 10px;
 }
+
+.item {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.activeLink {
+    font-weight: bold;
+    text-decoration: underline;
+    font-style: italic;
+    color: rgb(163, 51, 113);
+}
+
+
 
 /* такая запись тоже самое что выше - если потом в жсх мы через пробел указываем два стиля  */
 /* .active{
