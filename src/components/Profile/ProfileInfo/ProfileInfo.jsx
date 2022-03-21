@@ -6,7 +6,7 @@ const ProfileInfo = () => {
       <div>
 
          <div className={s.photoBlock}>
-            <img src='https://html5css.ru/css/img_forest.jpg' alt='photo' />
+            <img src='https://html5css.ru/css/img_forest.jpg' alt='photo555' />
          </div>
 
          <div className={s.descriptionBlock}>
