@@ -2,9 +2,6 @@ import s from './Post.module.css';
 
 const Post = (props) => {
 
-   //debugger;
-   //console.log(props)
-
    return (
 
       <div className={s.item}>

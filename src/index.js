@@ -3,19 +3,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import state, {subscribe} from "./redux/state";
+import store from "./redux/redux-store";
 import App from './App';
+import {Provider} from "./StoreContext";
 
-import {addPost, updateNewPostText} from "./redux/state";
 
-let rerenderEntireTree = (state) => {
+
+let rerenderEntireTree = () => {
 
    ReactDOM.render(
       <React.StrictMode>
 
-         <App state={state}
-              addPost={addPost}
-              updateNewPostText={updateNewPostText} />
+         {/*<StoreContext.Provider value={store}>*/}
+         <Provider store={store}>
+
+            <App
+               store={store}
+            />
+
+         </Provider>
+
+         {/*</StoreContext.Provider>*/}
 
       </React.StrictMode>,
       document.getElementById( 'root' )
@@ -23,9 +31,24 @@ let rerenderEntireTree = (state) => {
 }
 
 
-rerenderEntireTree( state );
+rerenderEntireTree();
 
-subscribe( rerenderEntireTree );
+store.subscribe( () => {
+   rerenderEntireTree()
+} );
+
+// раньше когда самодельный стор вызывали тут было так
+//store.subscribe(rerenderEntireTree);
+
+// раньше когда самодельный стор вызывали тут было так
+// и это прокидывали в апп:
+//state={state}
+//dispatch={store.dispatch.bind( store )}
+
+// rerenderEntireTree( store.getState() );
+// и стейт уже ен передаем - каждая конечная тупая компонента
+// внутри возьмем стейт - наверно осинхронно и отрисуется
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
