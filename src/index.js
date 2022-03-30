@@ -5,37 +5,29 @@ import './index.css';
 
 import store from "./redux/redux-store";
 import App from './App';
-import {Provider} from "./StoreContext";
-
-
-
-let rerenderEntireTree = () => {
+import {Provider} from "react-redux";
 
    ReactDOM.render(
       <React.StrictMode>
 
-         {/*<StoreContext.Provider value={store}>*/}
          <Provider store={store}>
 
-            <App
-               store={store}
-            />
+            <App/>
 
          </Provider>
-
-         {/*</StoreContext.Provider>*/}
 
       </React.StrictMode>,
       document.getElementById( 'root' )
    );
-}
 
 
-rerenderEntireTree();
+// и обвертку rerenderEntireTree(); тоже убираем
 
-store.subscribe( () => {
-   rerenderEntireTree()
-} );
+// так было когда без библиотеки реак-редакс было и каждый раз все
+// дерево получается перерисовывалось при изменении стейта
+// store.subscribe( () => {
+//    rerenderEntireTree()
+// } );
 
 // раньше когда самодельный стор вызывали тут было так
 //store.subscribe(rerenderEntireTree);

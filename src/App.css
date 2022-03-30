@@ -14,7 +14,8 @@
 .app-wrapper-content {
 
    grid-area: c;
-   background-color: #0000ff;
+   background-color: #4f4fe5;
+   /*background-color: #0000ff;*/
    font-weight: bold;
 }
 

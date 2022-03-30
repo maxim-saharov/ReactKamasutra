@@ -1,24 +1,24 @@
+//Дима этот файл удалил - я оставил его просто для понимания
+
+// import React from "react";
 //
+// const StoreContext_Non = React.createContext( {} );
+//
+// export const Provider = (props) => {
+//
+//    return (
+//
+//       <StoreContext_Non.Provider value={props.store}>
+//
+//          {props.children}
+//
+//       </StoreContext_Non.Provider>
+//
+//    )
+// }
 
-import React from "react";
-import store from "./redux/redux-store";
+//export default StoreContext_Non;
 
-const StoreContext = React.createContext( {} );
-
-export const Provider = (props) => {
-
-   return (
-
-      <StoreContext.Provider value={props.store}>
-
-         {props.children}
-
-      </StoreContext.Provider>
-
-   )
-}
-
-export default StoreContext;
 
 // тут когда вызывающий это вызовет - он передаст сюда параметры через пропсы
 // и свого ребенка тоже с пропсами и как бы потом вызывающий

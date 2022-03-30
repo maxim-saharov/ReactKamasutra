@@ -67,7 +67,7 @@ let store = {
    }
 }
 
-window.store2 = store;
+// window.store2 = store;
 
 export default store;
 
