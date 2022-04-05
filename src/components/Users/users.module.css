@@ -1,3 +1,8 @@
 .userPhoto {
-   height: 70px;
+   height: 40px;
+}
+
+.selectedPage {
+   font-weight: bold;
+   color: #d74343;
 }

@@ -3,11 +3,18 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 
 let initialState = {
 
    users: [],
+   pageSize: 5,
+   totalUsersCount: 16,
+   currentPage: 2,
+   isFetching: false
 
 }
 
@@ -38,15 +45,35 @@ const usersReducer = (state = initialState, action) => {
             } ),
          };
 
+
       case SET_USERS:
-
-         let stateCopy = {
+         return {
             ...state,
-            users: [...state.users, ...action.users]
-            //users: [...action.users]
-         }
+            users: action.users
+         };
 
-         return stateCopy;
+
+      case SET_CURRENT_PAGE:
+         return {
+            ...state,
+            currentPage: action.currentPage
+
+         };
+
+      case SET_TOTAL_USERS_COUNT:
+         //alert(action.TotalUsersCount)
+         return {
+            ...state,
+            //totalUsersCount: action.TotalUsersCount
+            // если так вывести то создаст 4 тыс страниц!
+
+         };
+
+         case TOGGLE_IS_FETCHING:
+         return {
+            ...state,
+            isFetching: action.isFetching
+         };
 
 
       default:
@@ -54,11 +81,24 @@ const usersReducer = (state = initialState, action) => {
    }
 }
 
-export const followAC = (userId) => ({type: FOLLOW, userId});
+export const follow = (userId) => ({type: FOLLOW, userId});
 
-export const unFollowAC = (userId) => ({type: UNFOLLOW, userId});
+export const unfollow = (userId) => ({type: UNFOLLOW, userId});
 
-export const setUsersAC = (users) => ({type: SET_USERS, users});
+export const setUsers = (users) => ({type: SET_USERS, users});
+
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
+
+export const setTotalUsersCount = (TotalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, TotalUsersCount: TotalUsersCount});
+// выше для понимая длинная запись в переменой - TotalUsersCount - число 18215
+// просто currentPage - это тоже самое что и currentPage: currentPage
+//(тоесть мы передаем переменную с числом 5 например и получаем
+// название ключа такое как была просто переменная-параметр и значение
+// как было у переменной-параметра
+// и потом что знась передали вторым параметром придет через акшен как
+// action.currentPage
+
+export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 
 export default usersReducer;
 

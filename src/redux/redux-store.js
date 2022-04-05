@@ -23,6 +23,8 @@ let reducers = combineReducers( {
 
 let store = createStore(reducers);
 
-window.store4 = store;
+window.store55 = store;
+
+// store55.getState()
 
 export default store;

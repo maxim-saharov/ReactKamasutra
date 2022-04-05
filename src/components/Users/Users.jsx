@@ -1,72 +1,54 @@
 //
 import React from "react";
-import styles from './users.module.css';
-import * as axios from "axios";
-import userPhoto from '../../assets/images/user.jpg';
+import styles from "./users.module.css";
+import userPhoto from "../../assets/images/user.jpg";
+import {NavLink} from "react-router-dom";
+
 
 let Users = (props) => {
 
-   let GetUsers = () => {
+   let pageCount = Math.ceil( props.totalUsersCount / props.pageSize );
 
-      if (props.users.length === 0) {
+   let pages = [];
 
-         axios.get( 'https://social-network.samuraijs.com/api/1.0/users' )
-            .then( response => {
-
-               let usersB = response.data.items;
-
-               props.setUsers( usersB );
-
-            } );
-
-         // let usersA = [
-         //    {
-         //       id: 1,
-         //       photoUrl: 'https://png.pngtree.com/png-vector/20200625/ourlarge/pngtree-male-avatar-white-collar-black-and-white-businessmen-silhouette-png-image_2266267.jpg',
-         //       followed: false,
-         //       fullName: 'Tom_',
-         //       status: 'free',
-         //       location: {city: 'Kiev1', country: 'Ukraine'}
-         //    },
-         //    {
-         //       id: 2,
-         //       photoUrl: 'https://png.pngtree.com/png-vector/20200625/ourlarge/pngtree-male-avatar-white-collar-black-and-white-businessmen-silhouette-png-image_2266267.jpg',
-         //       followed: true,
-         //       fullName: 'Andrey_',
-         //       status: 'free2',
-         //       location: {city: 'Kiev2', country: 'Ukraine2'}
-         //    },
-         //    {
-         //       id: 3,
-         //       photoUrl: 'https://png.pngtree.com/png-vector/20200625/ourlarge/pngtree-male-avatar-white-collar-black-and-white-businessmen-silhouette-png-image_2266267.jpg',
-         //       followed: false,
-         //       fullName: 'Ivan_',
-         //       status: 'free3',
-         //       location: {city: 'Kiev3', country: 'Ukraine3'}
-         //    },
-         // ]
-         //
-         //props.setUsers( usersA );
-
-      }
+   for (let i = 1; i <= pageCount; i++) {
+      pages.push( i );
    }
 
 
    return (
       <div>
-         <button onClick={GetUsers}>Get Users</button>
+         <div>
+            {pages.map( p => {
+
+               return (
+                  <span
+                     className={props.currentPage === p ?
+                        styles.selectedPage : ''}
+                     key={p}
+                     onClick={() => {
+                        props.onPageChanged( p );
+                     }}>
+                              {p}
+                        </span>)
+
+            } )}
+         </div>
+
          {
             props.users.map( u => <div key={u.id}>
 
                <span>
                   <div>
-                     <img src={u.photos.small !== null ? u.photos.small : userPhoto}
-                          className={styles.userPhoto}
-                          alt={'fff'} />
+                     <NavLink to={'/profile/' + u.id}>
+                        <img src={u.photos.small !== null ? u.photos.small : userPhoto}
+                             className={styles.userPhoto}
+                             alt={'fff'} />
+                     </NavLink>
                   </div>
+
                   <div>
                      {u.followed
-
                         ? <button onClick={() => {
                            props.unfollow( u.id )
                         }}>
@@ -76,12 +58,10 @@ let Users = (props) => {
                            props.follow( u.id )
                         }}>
                            Follow </button>}
-
                   </div>
                </span>
 
                <span>
-
                   <span>
                      <div>
                         {u.name}
@@ -99,7 +79,6 @@ let Users = (props) => {
                         {'u.location.city'}
                      </div>
                   </span>
-
                </span>
 
             </div> )
@@ -110,3 +89,5 @@ let Users = (props) => {
 }
 
 export default Users;
+
+
