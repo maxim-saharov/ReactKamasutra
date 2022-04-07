@@ -6,6 +6,7 @@ const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
 
 
 let initialState = {
@@ -14,7 +15,8 @@ let initialState = {
    pageSize: 5,
    totalUsersCount: 16,
    currentPage: 2,
-   isFetching: false
+   isFetching: false,
+   followingInProgress: []
 
 }
 
@@ -30,8 +32,8 @@ const usersReducer = (state = initialState, action) => {
                   return {...u, followed: true}
                }
                return u;
-            } ),
-         };
+            } )
+         }
 
 
       case UNFOLLOW:
@@ -42,15 +44,15 @@ const usersReducer = (state = initialState, action) => {
                   return {...u, followed: false}
                }
                return u;
-            } ),
-         };
+            } )
+         }
 
 
       case SET_USERS:
          return {
             ...state,
             users: action.users
-         };
+         }
 
 
       case SET_CURRENT_PAGE:
@@ -58,7 +60,7 @@ const usersReducer = (state = initialState, action) => {
             ...state,
             currentPage: action.currentPage
 
-         };
+         }
 
       case SET_TOTAL_USERS_COUNT:
          //alert(action.TotalUsersCount)
@@ -67,13 +69,23 @@ const usersReducer = (state = initialState, action) => {
             //totalUsersCount: action.TotalUsersCount
             // если так вывести то создаст 4 тыс страниц!
 
-         };
+         }
 
-         case TOGGLE_IS_FETCHING:
+      case TOGGLE_IS_FETCHING:
          return {
             ...state,
             isFetching: action.isFetching
-         };
+         }
+
+      case TOGGLE_IS_FOLLOWING_PROGRESS:
+         return {
+            ...state,
+            followingInProgress:
+               action.isFetching
+                  ? [...state.followingInProgress, action.userId]
+                  : state.followingInProgress.filter( id => id !== action.userId ),
+
+         }
 
 
       default:
@@ -89,7 +101,10 @@ export const setUsers = (users) => ({type: SET_USERS, users});
 
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
 
-export const setTotalUsersCount = (TotalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, TotalUsersCount: TotalUsersCount});
+export const setTotalUsersCount = (TotalUsersCount) => ({
+   type: SET_TOTAL_USERS_COUNT,
+   TotalUsersCount: TotalUsersCount
+});
 // выше для понимая длинная запись в переменой - TotalUsersCount - число 18215
 // просто currentPage - это тоже самое что и currentPage: currentPage
 //(тоесть мы передаем переменную с числом 5 например и получаем
@@ -99,6 +114,8 @@ export const setTotalUsersCount = (TotalUsersCount) => ({type: SET_TOTAL_USERS_C
 // action.currentPage
 
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
+
+export const toggleFollowingProgress = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId});
 
 export default usersReducer;
 

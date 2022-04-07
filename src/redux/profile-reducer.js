@@ -25,7 +25,7 @@ const profileReducer = (state = initialState, action) => {
          return {
             ...state,
             newPostText: action.newText
-         };
+         }
 
 
       case ADD_POST: {
@@ -33,13 +33,13 @@ const profileReducer = (state = initialState, action) => {
             id: 55,
             message: state.newPostText,
             likesCount: 552
-         };
+         }
 
          return {
             ...state,
             posts: [...state.posts, newPosts],
             newPostText: ''
-         };
+         }
       }
          ;
 

@@ -1,9 +1,20 @@
 .header {
-    grid-area: h;
-    background-color: aqua;
-    /*background-color: #7fc6c6;*/
- }
- 
- .header img {
-    width: 70px;
- }
+   grid-area: h;
+   background-color: aqua;
+   /*background-color: #7fc6c6;*/
+}
+
+.header img {
+   width: 70px;
+}
+
+.loginBlock {
+   /*float: left;*/
+   margin-left: 15px;
+   font-weight: bold;
+}
+
+.loginBlock a {
+   color: #4f4fe5;;
+
+}
