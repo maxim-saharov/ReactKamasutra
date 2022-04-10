@@ -3,7 +3,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {
    follow, unfollow, setUsers, setCurrentPage,
-   setTotalUsersCount, toggleIsFetching, toggleFollowingProgress
+   toggleIsFetching, getUsersThunkCreator
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
@@ -11,18 +11,11 @@ import {usersAPI} from "../api/api";
 
 
 class UsersContainer extends React.Component {
-   totalCount; // это что бы не ругалось
 
    componentDidMount() {
 
-      this.props.toggleIsFetching( true );
+      this.props.getUsers( this.props.currentPage, this.props.pageSize );
 
-      usersAPI.getUsers( this.props.currentPage, this.props.pageSize )
-         .then( data => {
-            this.props.toggleIsFetching( false );
-            this.props.setUsers( data.items );
-            this.props.setTotalUsersCount( data.totalCount );
-         } );
    }
 
    componentDidUpdate(prevProps, prevState, snapshot) {
@@ -31,6 +24,8 @@ class UsersContainer extends React.Component {
 
    onPageChanged = (pageNumber) => {
 
+      // эту менять на санки не буду оставлю для понимание как было
+      // и Дима здесь ошибся - зменил тупо на то что выше.
       this.props.setCurrentPage( pageNumber );
 
       this.props.toggleIsFetching( true );
@@ -63,7 +58,6 @@ class UsersContainer extends React.Component {
                follow={this.props.follow}
 
                followingInProgress={this.props.followingInProgress}
-               toggleFollowingProgress={this.props.toggleFollowingProgress}
 
             />
          </>
@@ -88,11 +82,15 @@ let mapStateToProps = (state) => {
 
 export default connect( mapStateToProps, {
 
-   follow, unfollow, setUsers, setCurrentPage,
-   setTotalUsersCount, toggleIsFetching, toggleFollowingProgress
+   follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
+   getUsers: getUsersThunkCreator
 
 } )( UsersContainer );
 
+// getUsers: getUsersThunkCreator
+// такую длинную запись специально оставили что бы понимать как оно работает
+// тоесть когда обращаемся к getUsers - мы запускаем getUsersThunkCreator
+// и туда передаем все параметры и там запускаються фвп и вф возвращается и коннект передает в параметре dispatch и запускает вф.
 
 // так было раньше
 // let mapDispatchToProps = (dispatch) => {
@@ -125,6 +123,16 @@ export default connect( mapStateToProps, {
 //
 //    }
 // }
+
+// так было до подключение санок
+// this.props.toggleIsFetching( true );
+//
+// usersAPI.getUsers( this.props.currentPage, this.props.pageSize )
+//    .then( data => {
+//       this.props.toggleIsFetching( false );
+//       this.props.setUsers( data.items );
+//       this.props.setTotalUsersCount( data.totalCount );
+//    } );
 
 
 

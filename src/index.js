@@ -8,15 +8,15 @@ import App from './App';
 import {Provider} from "react-redux";
 
    ReactDOM.render(
-      <React.StrictMode>
+      //<React.StrictMode>
 
          <Provider store={store}>
 
             <App/>
 
-         </Provider>
+         </Provider>,
 
-      </React.StrictMode>,
+      //</React.StrictMode>,
       document.getElementById( 'root' )
    );
 

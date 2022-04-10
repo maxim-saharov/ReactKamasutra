@@ -7,6 +7,7 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import LoginPage from "./components/Login/Login";
 
 
 const App = () => {
@@ -24,6 +25,12 @@ const App = () => {
                      path='/profile/:userId'
                      element={
                         <ProfileContainer />} />
+
+                  <Route
+                     path='/profile'
+                     element={
+                        <ProfileContainer />} />
+
                   <Route
                      path='/dialogs/*'
                      element={
@@ -33,6 +40,11 @@ const App = () => {
                      path='/users'
                      element={
                         <UsersContainer />}
+                  />
+                  <Route
+                     path='/login'
+                     element={
+                        <LoginPage />}
                   />
                </Routes>
             </div>
@@ -44,3 +56,8 @@ const App = () => {
 }
 
 export default App;
+
+//path='/dialogs/*'
+//- так было когда по какому хочеш пути вроде можно идти
+//типо так
+//http://localhost:3000/dialogs/55

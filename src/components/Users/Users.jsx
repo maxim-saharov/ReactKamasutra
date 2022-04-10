@@ -3,7 +3,6 @@ import React from "react";
 import styles from "./users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
 
 
 let Users = (props) => {
@@ -55,22 +54,7 @@ let Users = (props) => {
                               props.followingInProgress.some( id => id === u.id )}
                            onClick={() => {
 
-                              props.toggleFollowingProgress( true, u.id );
-
-                              axios.delete( `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                                 {
-                                    withCredentials: true,
-                                    headers: {'API-KEY': 'a991bdb8-903c-4ace-9a79-3ab2d68d863e'}
-                                 } )
-                                 .then( response => {
-
-                                    if (response.data.resultCode === 0) {
-                                       props.unfollow( u.id )
-                                    }
-
-                                    props.toggleFollowingProgress( false, u.id );
-
-                                 } );
+                              props.unfollow( u.id )
 
                            }}>
                            Unfollow
@@ -80,22 +64,7 @@ let Users = (props) => {
                            disabled={props.followingInProgress.some( id => id === u.id )}
                            onClick={() => {
 
-                              props.toggleFollowingProgress( true, u.id );
-
-                              axios.post( `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},
-                                 {
-                                    withCredentials: true,
-                                    headers: {'API-KEY': 'a991bdb8-903c-4ace-9a79-3ab2d68d863e'}
-                                 } )
-                                 .then( response => {
-
-                                    if (response.data.resultCode === 0) {
-                                       props.follow( u.id )
-                                    }
-
-                                    props.toggleFollowingProgress( false, u.id );
-
-                                 } );
+                              props.follow( u.id )
 
                            }}>
                            Follow
@@ -131,5 +100,31 @@ let Users = (props) => {
 }
 
 export default Users;
+
+// props.toggleFollowingProgress( true, u.id );
+//
+// usersAPI.unfollow( u.id )
+//    .then( response => {
+//
+//       if (response.data.resultCode === 0) {
+//          props.unfollow( u.id )
+//       }
+//
+//       props.toggleFollowingProgress( false, u.id );
+//
+//    } );
+
+// props.toggleFollowingProgress( true, u.id );
+//
+// usersAPI.follow(u.id)
+//    .then( response => {
+//
+//       if (response.data.resultCode === 0) {
+//          props.follow( u.id )
+//       }
+//
+//       props.toggleFollowingProgress( false, u.id );
+//
+//    } );
 
 
