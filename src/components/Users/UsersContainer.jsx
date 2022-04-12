@@ -7,7 +7,9 @@ import {
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {usersAPI} from "../api/api";
+import {usersAPI} from "../../api/api";
+import {WithAuthRedirect} from "../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 class UsersContainer extends React.Component {
@@ -17,10 +19,6 @@ class UsersContainer extends React.Component {
       this.props.getUsers( this.props.currentPage, this.props.pageSize );
 
    }
-
-   componentDidUpdate(prevProps, prevState, snapshot) {
-   }
-
 
    onPageChanged = (pageNumber) => {
 
@@ -75,17 +73,27 @@ let mapStateToProps = (state) => {
       currentPage: state.usersPage.currentPage,
       isFetching: state.usersPage.isFetching,
       followingInProgress: state.usersPage.followingInProgress
-
    }
 }
 
+const UsersContainerCompose = compose(
+   connect( mapStateToProps, {
+      follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
+      getUsers: getUsersThunkCreator
+   } ),
+   WithAuthRedirect
+)( UsersContainer )
 
-export default connect( mapStateToProps, {
+export default UsersContainerCompose;
 
-   follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
-   getUsers: getUsersThunkCreator
 
-} )( UsersContainer );
+// так было без compose
+// export default WithAuthRedirect(
+//    connect( mapStateToProps, {
+//       follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
+//       getUsers: getUsersThunkCreator
+//    } )( UsersContainer )
+// );
 
 // getUsers: getUsersThunkCreator
 // такую длинную запись специально оставили что бы понимать как оно работает

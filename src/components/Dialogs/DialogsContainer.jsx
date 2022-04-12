@@ -3,14 +3,8 @@ import React from "react";
 import {connect} from "react-redux";
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
-
-
-let mapStateToProps = (state) => {
-   return {
-      dialogsPage: state.dialogsPage,
-      isAuth: state.auth.isAuth
-   }
-}
+import {WithAuthRedirect} from "../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 let mapDispatchToProps = (dispatch) => {
@@ -30,10 +24,33 @@ let mapDispatchToProps = (dispatch) => {
    }
 }
 
-const DialogsContainer = connect( mapStateToProps, mapDispatchToProps )( Dialogs );
+let mapStateToProps = (state) => {
+   return {
+      dialogsPage: state.dialogsPage,
+   }
+}
+
+const DialogsContainer = compose(
+   connect( mapStateToProps, mapDispatchToProps ),
+   WithAuthRedirect
+)( Dialogs )
 
 export default DialogsContainer;
 
+
+// так было без compose
+//let AuthRedirectComponent = WithAuthRedirect( Dialogs );
+//
+// const DialogsContainer = connect( mapStateToProps, mapDispatchToProps )( AuthRedirectComponent );
+
+// так было без хок функции общей
+// let AuthRedirectComponent = (props) => {
+//
+//    if (!props.isAuth) {
+//       return <Navigate to={'/login'} />
+//    }
+//    return <Dialogs {...props} />
+// }
 
 // можно так сделать - как по мне так более понятнее
 // или как Дима сразу засунуть в сф
