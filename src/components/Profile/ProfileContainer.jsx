@@ -2,7 +2,7 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getUserProfile} from "../../redux/profile-reducer";
+import {getStatus, getUserProfile, updateStatus} from "../../redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
 
@@ -14,10 +14,13 @@ class ProfileContainer extends React.Component {
       let userId = this.props.router.params.userId;
 
       if (!userId) {
-         userId = 2;
+         userId = 23275;
+         //userId = 2;
       }
 
-      this.props.getUserProfile( userId )
+      this.props.getUserProfile( userId );
+
+      this.props.getStatus( userId );
 
    }
 
@@ -25,7 +28,11 @@ class ProfileContainer extends React.Component {
 
       return (
          <div>
-            <Profile {...this.props} profile={this.props.profile} />
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     status={this.props.status}
+                     updateStatus={this.props.updateStatus}
+            />
          </div>
       )
    }
@@ -50,17 +57,21 @@ function withRouter(Component) {
 
 
 let mapStateToProps = (state) => ({
-   profile: state.profilePage.profile
+   profile: state.profilePage.profile,
+   status: state.profilePage.status
 })
 
 const ProfileContainerCompose = compose(
-   connect( mapStateToProps, {getUserProfile} ),
+   connect( mapStateToProps, {getUserProfile, getStatus, updateStatus} ),
    withRouter,
-   //WithAuthRedirect
 )( ProfileContainer )
 
 export default ProfileContainerCompose
 
+
+//setTimeout( () => {
+//this.props.getStatus( userId );
+//}, 2000 )
 
 // так было без compose
 //let AuthRedirectComponent = WithAuthRedirect( ProfileContainer );

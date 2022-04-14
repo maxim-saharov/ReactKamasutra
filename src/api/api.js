@@ -8,6 +8,15 @@ const instance = axios.create( {
 } )
 
 
+export const authAPI = {
+
+   me() {
+      return instance.get( `auth/me` )
+   },
+
+}
+
+
 export const usersAPI = {
 
    getUsers(currentPage, pageSize) {
@@ -26,18 +35,27 @@ export const usersAPI = {
    },
 
    getProfile(userId) {
-      return instance.get( `profile/` + userId );
+      //console.warn('это старый метод - переделай его на
+      //profileAPI.getProfile');
+      return profileAPI.getProfile( userId );
    }
 
 }
 
 
-export const authAPI = {
+export const profileAPI = {
 
-   me() {
-      return instance.get( `auth/me` )
+   getProfile(userId) {
+      return instance.get( `profile/` + userId );
    },
 
+   getStatus(userId) {
+      return instance.get( `profile/status/` + userId );
+   },
+
+   updateStatus(status) {
+      return instance.put( `profile/status`, {status: status} );
+   }
 }
 
 
