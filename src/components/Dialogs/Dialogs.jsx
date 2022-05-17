@@ -4,6 +4,9 @@ import s from './Dialogs.module.css';
 import DialogItems from "./DialogItems/DialogItems";
 import Message from "./Message/Message";
 import {Navigate} from "react-router-dom";
+import {Formik, Form, Field, ErrorMessage} from "formik";
+import {ErrorMessageWrapper} from "../../utils/validators/validators";
+import * as Yup from "yup";
 
 
 const Dialogs = (props) => {
@@ -14,23 +17,11 @@ const Dialogs = (props) => {
 
    let messagesElement = state.messages.map( m => <Message message={m.message} key={m.id} /> );
 
-   let newMessageBody = state.newMessageBody;
-
-
-   let onSendMessageChange = (e) => {
-      let body = e.target.value;
-      props.updateNewMessageBody( body );
-   }
-
-
-   let onSendMessageClick = () => {
-      props.sendMessage();
-
-   }
 
    if (!props.isAuth) {
       return <Navigate to={'/login'} />
    }
+
 
    return (
       <div className={s.dialogs}>
@@ -43,20 +34,7 @@ const Dialogs = (props) => {
 
             <div>{messagesElement}</div>
 
-
-            <div>
-               <div>
-                  <textarea value={newMessageBody}
-                            onChange={onSendMessageChange}
-                            placeholder='enter text'>
-                  </textarea>
-               </div>
-
-               <div>
-                  <button onClick={onSendMessageClick}>Send</button>
-               </div>
-            </div>
-
+            <AddMassageForm sendMessage={props.sendMessage} />
 
          </div>
 
@@ -64,4 +42,81 @@ const Dialogs = (props) => {
    );
 }
 
+
+const AddMassageForm = (props) => {
+
+   const validationSchema = Yup.object().shape( {
+
+      newMessageBody: Yup.string()
+         .min( 2, "Must be longer than 2 characters !" )
+         .max( 5, "Must be shorter than 5 characters !" )
+         .required( "Required !" )
+   } );
+
+   const addNewMessage = (values) => {
+
+      props.sendMessage( values );
+
+   }
+
+   return (
+      <Formik
+         initialValues={{
+            newMessageBody: ""
+         }}
+         validationSchema={validationSchema}
+         onSubmit={(values, {resetForm}) => {
+            addNewMessage( values.newMessageBody );
+            resetForm( {values: ''} );
+         }}
+      >
+         {() => (
+            <Form>
+               <div>
+                  <Field
+                     name={'newMessageBody'}
+                     as={'textarea'}
+                     placeholder={'enter text 2'}
+                  />
+               </div>
+               <ErrorMessage name="newMessageBody">
+                  {ErrorMessageWrapper}
+               </ErrorMessage>
+
+               <button type={'submit'}>Send</button>
+            </Form>
+         )}
+      </Formik>
+   )
+}
+
 export default Dialogs;
+
+
+// так было раньше без формика
+// onSubmit={(values) =>
+// addNewMessage( values )
+//
+// <div>
+//    <div>
+//                   <textarea value={newMessageBody}
+//                             onChange={onSendMessageChange}
+//                             placeholder='enter text'>
+//                   </textarea>
+//    </div>
+//
+//    <div>
+//       <button onClick={onSendMessageClick}>Send</button>
+//    </div>
+// </div>
+//
+// let onSendMessageClick = () => {
+//    props.sendMessage();
+// }
+//
+// если занулить не все нужно до делаем так
+// resetForm( {
+//    values: {
+//       newMessageBody: ''
+//    }
+// } )

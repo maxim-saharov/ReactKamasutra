@@ -11,15 +11,26 @@ const Header = (props) => {
               alt={'photo-header'}
          />
 
-         <span className={s.loginBlock}>
-            {props.isAuth ?
-               props.login :
-               <NavLink to={'/login'}>Login</NavLink>
-            }
-         </span>
+         {props.isAuth
+            ?
+            <span className={s.loginBlockIsAuth}>
+                  {props.login} - <button onClick={props.logout}>
+                  Log out</button>
+            </span>
+            :
+            <NavLink
+               className={s.loginBlockNotAuth} to={'/login'}
+            >Login</NavLink>
+         }
 
       </header>
    );
 }
 
 export default Header;
+
+{/*<span className={s.loginBlock}>*/
+}
+
+{/*</span>*/
+}
