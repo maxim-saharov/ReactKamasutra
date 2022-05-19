@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ReactKamasutra.iml" filepath="$PROJECT_DIR$/.idea/ReactKamasutra.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../test_js/.idea/test_js.iml" filepath="$PROJECT_DIR$/../test_js/.idea/test_js.iml" />
     </modules>
   </component>
 </project>

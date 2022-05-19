@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-
 import Navbar from './components/Navbar/Navbar';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -8,54 +7,78 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
+import {connect} from "react-redux";
+import {initializeApp} from "./redux/app-reducer";
+import Preloader from "./components/common/Preloader/Preloader";
 
 
-const App = () => {
+class App extends React.Component {
 
-   return (
+   componentDidMount() {
+      this.props.initializeApp();
+   }
 
-      <BrowserRouter>
-         <div className='app-wrapper'>
-            <HeaderContainer />
-            <Navbar />
+   render() {
 
-            <div className='app-wrapper-content'>
-               <Routes>
-                  <Route
-                     path='/profile/:userId'
-                     element={
-                        <ProfileContainer />} />
+      if (!this.props.initialized){
 
-                  <Route
-                     path='/profile'
-                     element={
-                        <ProfileContainer />} />
+         return <Preloader/>
 
-                  <Route
-                     path='/dialogs/*'
-                     element={
-                        <DialogsContainer />}
-                  />
-                  <Route
-                     path='/users'
-                     element={
-                        <UsersContainer />}
-                  />
-                  <Route
-                     path='/login'
-                     element={
-                        <LoginPage />}
-                  />
-               </Routes>
+      }
+
+
+      return (
+         <BrowserRouter>
+
+            <div className='app-wrapper'>
+               <HeaderContainer />
+               <Navbar />
+
+               <div className='app-wrapper-content'>
+                  <Routes>
+                     <Route
+                        path='/profile/:userId'
+                        element={
+                           <ProfileContainer />} />
+
+                     <Route
+                        path='/profile'
+                        element={
+                           <ProfileContainer />} />
+
+                     <Route
+                        path='/dialogs/*'
+                        element={
+                           <DialogsContainer />}
+                     />
+                     <Route
+                        path='/users'
+                        element={
+                           <UsersContainer />}
+                     />
+                     <Route
+                        path='/login'
+                        element={
+                           <LoginPage />}
+                     />
+                  </Routes>
+               </div>
+
             </div>
-
-         </div>
-      </BrowserRouter>
-
-   );
+         </BrowserRouter>
+      );
+   }
 }
 
-export default App;
+let mapStateToProps = (state) => ({
+
+   initialized: state.app.initialized
+
+})
+
+
+export default connect( mapStateToProps, {initializeApp} )( App );
+
 
 //path='/dialogs/*'
 //- так было когда по какому хочеш пути вроде можно идти

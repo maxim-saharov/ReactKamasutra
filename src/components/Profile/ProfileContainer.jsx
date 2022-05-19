@@ -5,29 +5,63 @@ import {connect} from "react-redux";
 import {getStatus, getUserProfile, updateStatus} from "../../redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
+import {Navigate} from "react-router-dom";
 
 
 class ProfileContainer extends React.Component {
+   constructor(props) {
+      super( props );
+      this.state = {
+         isShowMyProfile: true
+      }
+   }
+
 
    componentDidMount() {
 
-      let userId = this.props.router.params.userId;
+      let userIdFromPath = +this.props.router.params.userId;
+      let authorisedUserId = this.props.authorisedUserId;
 
-      debugger
-
-      if (!userId) {
+      if (userIdFromPath) {
          //userId = 2;
          //userId = 23275;
-         userId = this.props.authorisedUserId;
+         this.props.getUserProfile( userIdFromPath );
+         this.props.getStatus( userIdFromPath );
+
+      } else {
+
+         if (this.props.isAuth) {
+            this.props.getUserProfile( authorisedUserId );
+            this.props.getStatus( authorisedUserId );
+         }
       }
+   }
 
-      this.props.getUserProfile( userId );
+   componentDidUpdate(prevProps, prevState, snapshot) {
 
-      this.props.getStatus( userId );
+      let userIdFromPath = +this.props.router.params.userId;
+      let authorisedUserId = this.props.authorisedUserId;
+      let isShowMyProfile = this.state.isShowMyProfile;
 
+      if (isShowMyProfile) {
+
+         if (userIdFromPath === authorisedUserId) {
+            this.setState( {isShowMyProfile: false} )
+         }
+
+         if (!userIdFromPath && this.props.isAuth) {
+            this.props.getUserProfile( authorisedUserId );
+            this.props.getStatus( authorisedUserId );
+            this.setState( {isShowMyProfile: false} )
+         }
+      }
    }
 
    render() {
+
+      if (!this.props.isAuth && !this.props.router.params.userId) {
+         return <Navigate to={'/login'} />
+      }
 
       return (
          <div>
@@ -66,12 +100,13 @@ let mapStateToProps = (state) => ({
    isAuth: state.auth.isAuth
 })
 
-const ProfileContainerCompose = compose(
-   connect( mapStateToProps, {getUserProfile, getStatus, updateStatus} ),
-   withRouter,
-)( ProfileContainer )
 
-export default ProfileContainerCompose
+const ProfileContainerCompose = compose(
+   withRouter,
+   connect( mapStateToProps, {getUserProfile, getStatus, updateStatus} )
+)( ProfileContainer );
+
+export default ProfileContainerCompose;
 
 
 //setTimeout( () => {

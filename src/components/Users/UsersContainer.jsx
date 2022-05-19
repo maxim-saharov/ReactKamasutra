@@ -57,6 +57,8 @@ class UsersContainer extends React.Component {
 
                followingInProgress={this.props.followingInProgress}
 
+               isAuth={this.props.isAuth}
+
             />
          </>
       )
@@ -72,21 +74,22 @@ let mapStateToProps = (state) => {
       totalUsersCount: state.usersPage.totalUsersCount,
       currentPage: state.usersPage.currentPage,
       isFetching: state.usersPage.isFetching,
-      followingInProgress: state.usersPage.followingInProgress
+      followingInProgress: state.usersPage.followingInProgress,
+      isAuth: state.auth.isAuth
    }
 }
 
 const UsersContainerCompose = compose(
+   //WithAuthRedirect,
    connect( mapStateToProps, {
       follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
       getUsers: getUsersThunkCreator
-   } ),
-   WithAuthRedirect
+   } )
 )( UsersContainer )
 
 export default UsersContainerCompose;
 
-
+//WithAuthRedirect, - это переадресация на страницу логина - сейчас ее отключили
 // так было без compose
 // export default WithAuthRedirect(
 //    connect( mapStateToProps, {
