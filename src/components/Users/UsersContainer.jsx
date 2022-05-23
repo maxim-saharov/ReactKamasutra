@@ -3,27 +3,28 @@ import React from "react";
 import {connect} from "react-redux";
 import {
    follow, unfollow, setUsers, setCurrentPage,
-   toggleIsFetching, getUsersThunkCreator
+   toggleIsFetching, requestUsersThunkCreator
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {usersAPI} from "../../api/api";
-import {WithAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+   getCurrentPage, getFollowingInProgress, getIsFetching,
+   getPageSize, getTotalUsersCount, getUsersSuperSelector
+} from "../../redux/users-selectors";
 
 
 class UsersContainer extends React.Component {
 
    componentDidMount() {
-
-      this.props.getUsers( this.props.currentPage, this.props.pageSize );
-
+      this.props.getUsersProps( this.props.currentPage, this.props.pageSize );
    }
 
    onPageChanged = (pageNumber) => {
-
       // эту менять на санки не буду оставлю для понимание как было
-      // и Дима здесь ошибся - зменил тупо на то что выше.
+      // и Дима здесь ошибся - изменил тупо на то что выше.
+
       this.props.setCurrentPage( pageNumber );
 
       this.props.toggleIsFetching( true );
@@ -40,11 +41,9 @@ class UsersContainer extends React.Component {
 
       return (
          <>
-
             {this.props.isFetching ? <Preloader /> : null}
 
             <Users
-
                totalUsersCount={this.props.totalUsersCount}
                pageSize={this.props.pageSize}
 
@@ -56,9 +55,6 @@ class UsersContainer extends React.Component {
                follow={this.props.follow}
 
                followingInProgress={this.props.followingInProgress}
-
-               isAuth={this.props.isAuth}
-
             />
          </>
       )
@@ -69,13 +65,12 @@ class UsersContainer extends React.Component {
 let mapStateToProps = (state) => {
 
    return {
-      users: state.usersPage.users,
-      pageSize: state.usersPage.pageSize,
-      totalUsersCount: state.usersPage.totalUsersCount,
-      currentPage: state.usersPage.currentPage,
-      isFetching: state.usersPage.isFetching,
-      followingInProgress: state.usersPage.followingInProgress,
-      isAuth: state.auth.isAuth
+      users: getUsersSuperSelector( state ),
+      pageSize: getPageSize( state ),
+      totalUsersCount: getTotalUsersCount( state ),
+      currentPage: getCurrentPage( state ),
+      isFetching: getIsFetching( state ),
+      followingInProgress: getFollowingInProgress( state ),
    }
 }
 
@@ -83,11 +78,25 @@ const UsersContainerCompose = compose(
    //WithAuthRedirect,
    connect( mapStateToProps, {
       follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
-      getUsers: getUsersThunkCreator
+      getUsersProps: requestUsersThunkCreator
    } )
 )( UsersContainer )
 
 export default UsersContainerCompose;
+
+// оставили для понимания как было
+// let mapStateToProps = (state) => {
+//    return {
+//       users: state.usersPage.users,
+//       pageSize: state.usersPage.pageSize,
+//       totalUsersCount: state.usersPage.totalUsersCount,
+//       currentPage: state.usersPage.currentPage,
+//       isFetching: state.usersPage.isFetching,
+//       followingInProgress: state.usersPage.followingInProgress,
+//    }
+
+//isAuth: geIsAuth(state)
+//isAuth={this.props.isAuth}
 
 //WithAuthRedirect, - это переадресация на страницу логина - сейчас ее отключили
 // так было без compose

@@ -7,18 +7,24 @@ import store from "./redux/redux-store";
 import App from './App';
 import {Provider} from "react-redux";
 
-   ReactDOM.render(
-      //<React.StrictMode>
+// setInterval(
+//    () => {
+//       store.dispatch( {type: 'FAKE'} )
+//    },
+//    1000 );
 
-         <Provider store={store}>
+ReactDOM.render(
+   //<React.StrictMode>
 
-            <App/>
+   <Provider store={store}>
 
-         </Provider>,
+      <App />
 
-      //</React.StrictMode>,
-      document.getElementById( 'root' )
-   );
+   </Provider>,
+
+   //</React.StrictMode>,
+   document.getElementById( 'root' )
+);
 
 reportWebVitals();
 

@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./users.module.css";
 import userPhoto from "../../assets/images/user.jpg";
-import {Navigate, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
 let Users = (props) => {
@@ -14,15 +14,6 @@ let Users = (props) => {
    for (let i = 1; i <= pageCount; i++) {
       pages.push( i );
    }
-
-   //debugger
-
-
-   // if (!props.isAuth) {
-   //    alert("нужно авторизироваться")
-   //    //return <Navigate to={'/login'} />
-   // }
-
 
 
    return (
@@ -109,6 +100,12 @@ let Users = (props) => {
 }
 
 export default Users;
+
+
+// if (!props.isAuth) {
+//    alert("нужно авторизироваться")
+//    //return <Navigate to={'/login'} />
+// }
 
 // props.toggleFollowingProgress( true, u.id );
 //

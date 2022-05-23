@@ -93,12 +93,15 @@ function withRouter(Component) {
 }
 
 
-let mapStateToProps = (state) => ({
-   profile: state.profilePage.profile,
-   status: state.profilePage.status,
-   authorisedUserId: state.auth.id,
-   isAuth: state.auth.isAuth
-})
+let mapStateToProps = (state) => {
+
+   return {
+      profile: state.profilePage.profile,
+      status: state.profilePage.status,
+      authorisedUserId: state.auth.id,
+      isAuth: state.auth.isAuth
+   }
+}
 
 
 const ProfileContainerCompose = compose(
@@ -108,6 +111,8 @@ const ProfileContainerCompose = compose(
 
 export default ProfileContainerCompose;
 
+
+//fake: state.usersPage.fake
 
 //setTimeout( () => {
 //this.props.getStatus( userId );
