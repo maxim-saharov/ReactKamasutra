@@ -7,10 +7,13 @@ import * as Yup from "yup";
 import {ErrorMessageWrapper} from "../../../utils/validators/validators";
 
 
-const MyPosts = (props) => {
+const MyPosts = props => {
 
+   // тут reverse - для теста
    let postsElement =
-      props.posts.map( p => <Post value={p.message} likesCount={p.likesCount} key={p.id} /> );
+      [...props.posts]
+         .reverse()
+         .map( p => <Post value={p.message} likesCount={p.likesCount} key={p.id} /> );
 
    return (
       <div className={s.postsBlock}>
@@ -27,10 +30,9 @@ const MyPosts = (props) => {
             {postsElement}
          </div>
 
-
       </div>
    );
-}
+};
 
 
 const AddNewPostForm = (props) => {
@@ -106,3 +108,6 @@ export default MyPosts;
 //    <button onClick={OnAddPost}> Add posts
 //    </button>
 // </div>
+
+// let postsElement =
+//    props.posts.map( p => <Post value={p.message} likesCount={p.likesCount} key={p.id} /> );
