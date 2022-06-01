@@ -1,7 +1,7 @@
 //
 import {authAPI} from "../api/api";
 
-const SET_USER_DATA = 'SET_USER_DATA';
+const SET_USER_DATA = 'samurai-network/auth/SET_USER_DATA';
 
 let initialState = {
    id: null,
@@ -34,60 +34,64 @@ const setAuthUserData = (id, login, email, isAuth) => ({
 });
 
 
-export const getAuthUserData = () => (dispatch) => {
+export const getAuthUserData = () => async (dispatch) => {
 
-   return authAPI.me()
-      .then( response => {
+   let response = await authAPI.me();
 
-         if (response.data.resultCode === 0) {
-            let {id, login, email} = response.data.data;
-            dispatch( setAuthUserData( id, login, email, true ) );
-         }
-      } );
-
+   if (response.data.resultCode === 0) {
+      let {id, login, email} = response.data.data;
+      dispatch( setAuthUserData( id, login, email, true ) );
+   }
 
 }
 
 
-export const login = (email, password, rememberMe, setStatus, setFieldValue, setSubmitting) => (dispatch) => {
+export const login = (email, password, rememberMe, setStatus, setFieldValue, setSubmitting) => async (dispatch) => {
 
-   authAPI.login( email, password, rememberMe )
-      .then( response => {
+   let response = await authAPI.login( email, password, rememberMe );
 
-         let resultCode = response.data.resultCode;
+   let resultCode = response.data.resultCode;
 
-         if (resultCode === 0) {
-            dispatch( getAuthUserData() );
-         } else {
+   if (resultCode === 0) {
+      dispatch( getAuthUserData() );
+   } else {
 
-            let textError = `resultCode: ${resultCode} - ${response.data.messages.join()}`;
+      let textError = `resultCode: ${resultCode} - ${response.data.messages.join()}`;
 
-            setStatus( textError );
-            //setFieldValue("general", textError)
-            setSubmitting( false );
-
-         }
-
-      } );
+      setStatus( textError );
+      //setFieldValue("general", textError)
+      setSubmitting( false );
+   }
 
 }
 
-export const logout = () => (dispatch) => {
+export const logout = () => async (dispatch) => {
 
-   authAPI.logout()
-      .then( response => {
+   let response = await authAPI.logout();
 
-         if (response.data.resultCode === 0) {
+   if (response.data.resultCode === 0) {
 
-            dispatch( setAuthUserData( null, null, null, false ) );
-
-         }
-      } );
-
+      dispatch( setAuthUserData( null, null, null, false ) );
+   }
 }
 
 export default authReducer;
 
+
+// бак было с зенами
+// export const getAuthUserData = () => (dispatch) => {
+//
+//    return authAPI.me()
+//       .then( response => {
+//
+//          if (response.data.resultCode === 0) {
+//             let {id, login, email} = response.data.data;
+//             dispatch( setAuthUserData( id, login, email, true ) );
+//          }
+//       } );
+//
+//
+// }
 
 
 

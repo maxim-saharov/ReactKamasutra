@@ -40,9 +40,9 @@ let store = {
    _callSubscriber() {
    },
 
-   getState() {
-      return this._state;
-   },
+   // getState() {
+   //    return this._state;
+   // },
 
    subscribe(observer) {
       this._callSubscriber = observer;

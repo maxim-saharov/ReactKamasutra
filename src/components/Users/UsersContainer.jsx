@@ -18,7 +18,8 @@ import {
 class UsersContainer extends React.Component {
 
    componentDidMount() {
-      this.props.getUsersProps( this.props.currentPage, this.props.pageSize );
+      const {currentPage, pageSize} = this.props;
+      this.props.getUsersProps( currentPage, pageSize );
    }
 
    onPageChanged = (pageNumber) => {
@@ -29,7 +30,9 @@ class UsersContainer extends React.Component {
 
       this.props.toggleIsFetching( true );
 
-      usersAPI.getUsers( pageNumber, this.props.pageSize )
+      const {pageSize} = this.props;
+
+      usersAPI.getUsers( pageNumber, pageSize )
          .then( data => {
             this.props.toggleIsFetching( false );
             this.props.setUsers( data.items )
@@ -83,6 +86,7 @@ const UsersContainerCompose = compose(
 )( UsersContainer )
 
 export default UsersContainerCompose;
+
 
 // оставили для понимания как было
 // let mapStateToProps = (state) => {

@@ -1,6 +1,7 @@
 //
 
 import {usersAPI} from "../api/api";
+import {updateObjectInArray} from "../utils/object-helpers";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -37,15 +38,12 @@ const usersReducer = (state = initialState, action) => {
       case FOLLOW:
          return {
             ...state,
-            users: state.users.map( u => {
-               if (u.id === action.userId) {
-                  return {...u, followed: true}
-               }
-               return u;
-            } )
+            users: updateObjectInArray(state.users, action.userId,
+               'id', {followed: true})
          }
 
-
+      // эту оставил специально без рефакторинга что бы понимать как
+      // оно с вынесенной фуункцией работает
       case UNFOLLOW:
          return {
             ...state,
@@ -134,59 +132,58 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
 
 export const requestUsersThunkCreator = (page, pageSize) => {
 
-   return (dispatch) => {
+   return async (dispatch) => {
       dispatch( toggleIsFetching( true ) );
       //dispatch( setCurrentPage( page ) );
 
-      usersAPI.getUsers( page, pageSize )
-         .then( data => {
-            dispatch( toggleIsFetching( false ) );
-            dispatch( setUsers( data.items ) );
-            dispatch( setTotalUsersCount( data.totalCount ) );
-         } );
+      let data = await usersAPI.getUsers( page, pageSize );
+
+      dispatch( toggleIsFetching( false ) );
+      dispatch( setUsers( data.items ) );
+      dispatch( setTotalUsersCount( data.totalCount ) );
    }
 
 }
+
+let followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
+
+   dispatch( toggleFollowingProgress( true, userId ) );
+
+   let response = await apiMethod( userId );
+
+   if (response.data.resultCode === 0) {
+      dispatch( actionCreator( userId ) )
+   }
+
+   dispatch( toggleFollowingProgress( false, userId ) );
+
+}
+
 
 export const follow = (userId) => {
 
-   return (dispatch) => {
+   return async (dispatch) => {
 
-      dispatch( toggleFollowingProgress( true, userId ) );
+      let apiMethodFollow = usersAPI.follow.bind( usersAPI );
 
-      usersAPI.follow( userId )
-         .then( response => {
+      await followUnfollowFlow( dispatch, userId, apiMethodFollow, followSuccess );
 
-            if (response.data.resultCode === 0) {
-               dispatch(followSuccess( userId ))
-            }
-
-            dispatch( toggleFollowingProgress( false, userId ) );
-
-         } );
    }
-
 }
+
 
 export const unfollow = (userId) => {
 
-   return (dispatch) => {
+   return async (dispatch) => {
 
-      dispatch( toggleFollowingProgress( true, userId ) );
+      //let apiMethodUnfollow = usersAPI.unfollow.bind( usersAPI );
+      // Дима так сделал что бы не создавать типо лишние переменные
+      // тоесть сразу bind сделал в параметрах
 
-      usersAPI.unfollow( userId )
-         .then( response => {
-
-            if (response.data.resultCode === 0) {
-               dispatch(unfollowSuccess( userId ))
-            }
-
-            dispatch( toggleFollowingProgress( false, userId ) );
-
-         } );
+      await followUnfollowFlow( dispatch, userId,
+         usersAPI.unfollow.bind( usersAPI ), unfollowSuccess );
 
    }
-
 }
 
 export default usersReducer;
@@ -197,4 +194,36 @@ export default usersReducer;
 
 // это означает что мы развернули и склеили два массива
 //users: [...state.users, ...action.users]
+
+// так было до рефакторинга
+// export const follow = (userId) => {
+//
+//    return async (dispatch) => {
+//
+//       dispatch( toggleFollowingProgress( true, userId ) );
+//
+//       let response = await usersAPI.follow( userId );
+//
+//       if (response.data.resultCode === 0) {
+//          dispatch( followSuccess( userId ) )
+//       }
+//
+//       dispatch( toggleFollowingProgress( false, userId ) );
+//    }
+// }
+// export const unfollow = (userId) => {
+//
+//    return async (dispatch) => {
+//
+//       dispatch( toggleFollowingProgress( true, userId ) );
+//
+//       let response = await usersAPI.unfollow( userId );
+//
+//       if (response.data.resultCode === 0) {
+//          dispatch( unfollowSuccess( userId ) )
+//       }
+//
+//       dispatch( toggleFollowingProgress( false, userId ) );
+//    }
+// }
 
