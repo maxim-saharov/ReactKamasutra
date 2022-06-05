@@ -16,13 +16,14 @@ let initialState = {
 
    users: [],
    pageSize: 5,
-   totalUsersCount: 16,
+   totalUsersCount: 101,
    currentPage: 2,
    isFetching: false,
    followingInProgress: [],
    fake: 10
 
 }
+
 
 const usersReducer = (state = initialState, action) => {
 
@@ -38,8 +39,8 @@ const usersReducer = (state = initialState, action) => {
       case FOLLOW:
          return {
             ...state,
-            users: updateObjectInArray(state.users, action.userId,
-               'id', {followed: true})
+            users: updateObjectInArray( state.users, action.userId,
+               'id', {followed: true} )
          }
 
       // эту оставил специально без рефакторинга что бы понимать как
@@ -226,4 +227,18 @@ export default usersReducer;
 //       dispatch( toggleFollowingProgress( false, userId ) );
 //    }
 // }
+
+// initialState.users = [
+//    {
+//       name: 'bnantares55555',
+//       id: 24295,
+//       uniqueUrlName: null,
+//       photos: {
+//          small: null,
+//          large: null
+//       },
+//       status: null,
+//       followed: false
+//    },
+// ]
 

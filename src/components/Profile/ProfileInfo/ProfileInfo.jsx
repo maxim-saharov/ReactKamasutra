@@ -12,8 +12,6 @@ const ProfileInfo = (props) => {
       return <Preloader />
    }
 
-   debugger
-
    let alt_descriptionBlock = `photo_${props.profile.userId}`;
 
    return (
