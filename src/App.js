@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {HashRouter, Routes, Route} from 'react-router-dom';
 
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
@@ -31,7 +31,7 @@ class App extends React.Component {
 
 
       return (
-         <BrowserRouter>
+         <HashRouter>
 
             <div className='app-wrapper'>
                <HeaderContainer />
@@ -74,7 +74,7 @@ class App extends React.Component {
                </div>
 
             </div>
-         </BrowserRouter>
+         </HashRouter>
       );
    }
 }
@@ -89,6 +89,7 @@ let mapStateToProps = (state) => ({
 export default connect( mapStateToProps, {initializeApp} )( App );
 
 
+//BrowserRouter - раньше был - до публикации на гит хаб
 //path='/dialogs/*'
 //- так было когда по какому хочеш пути вроде можно идти
 //типо так

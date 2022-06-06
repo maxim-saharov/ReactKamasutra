@@ -27,11 +27,14 @@ export const WithAuthRedirect = (Component) => {
    }
 
 
-   let ConnectedAuthRedirectComponent = connect( mapStateToPropsForRedirect )( RedirectComponent );
-
-   return ConnectedAuthRedirectComponent;
+   return connect( mapStateToPropsForRedirect )( RedirectComponent );
 
 }
+
+
+// это полный код для понимания но оно ругается на избыточную переменную
+// let ConnectedAuthRedirectComponent = connect( mapStateToPropsForRedirect )( RedirectComponent );
+// return ConnectedAuthRedirectComponent;
 
 // или внутреннюю функцию можно функциональную сделать
 

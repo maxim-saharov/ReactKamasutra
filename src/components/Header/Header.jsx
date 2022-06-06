@@ -8,7 +8,7 @@ const Header = (props) => {
       <header className={s.header}>
 
          <img src='https://www.logodesign.net/images/illustration-logo.png'
-              alt={'photo-header'}
+              alt={'header-illustration-logo'}
          />
 
          {props.isAuth
@@ -28,9 +28,3 @@ const Header = (props) => {
 }
 
 export default Header;
-
-{/*<span className={s.loginBlock}>*/
-}
-
-{/*</span>*/
-}
