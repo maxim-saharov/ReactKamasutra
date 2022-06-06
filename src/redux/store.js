@@ -69,6 +69,8 @@ let store = {
 
 //TODO test1
 
+// test3
+
 // window.store2 = store;
 
 export default store;
