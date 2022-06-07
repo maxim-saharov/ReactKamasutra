@@ -11,9 +11,7 @@ class Profile extends React.Component {
       return (
          <div>
             <ProfileInfo
-               profile={this.props.profile}
-               status={this.props.status}
-               updateStatus={this.props.updateStatus}
+               {...this.props}
             />
             <MyPostsContainer
             />

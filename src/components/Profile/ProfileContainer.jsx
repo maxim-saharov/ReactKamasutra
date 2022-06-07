@@ -2,7 +2,7 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getStatus, getUserProfile, updateStatus} from "../../redux/profile-reducer";
+import {getStatus, getUserProfile, savePhoto, updateStatus} from "../../redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
 import {Navigate} from "react-router-dom";
@@ -57,18 +57,34 @@ class ProfileContainer extends React.Component {
       }
    }
 
+
    render() {
 
       if (!this.props.isAuth && !this.props.router.params.userId) {
          return <Navigate to={'/login'} />
       }
 
+      let userIdFromPath = +this.props.router.params.userId;
+      let authorisedUserId = this.props.authorisedUserId;
+
+      //debugger
+
+      let isOwner = false;
+      if (!userIdFromPath && this.props.isAuth) {
+         isOwner = true;
+      } else if (userIdFromPath === authorisedUserId) {
+         isOwner = true;
+      }
+
+
       return (
          <div>
-            <Profile {...this.props}
-                     profile={this.props.profile}
-                     status={this.props.status}
-                     updateStatus={this.props.updateStatus}
+            <Profile
+               profile={this.props.profile}
+               status={this.props.status}
+               updateStatus={this.props.updateStatus}
+               isOwner={isOwner}
+               savePhoto={this.props.savePhoto}
             />
          </div>
       )
@@ -95,6 +111,7 @@ function withRouter(Component) {
 
 let mapStateToProps = (state) => {
 
+
    return {
       profile: state.profilePage.profile,
       status: state.profilePage.status,
@@ -106,7 +123,8 @@ let mapStateToProps = (state) => {
 
 const ProfileContainerCompose = compose(
    withRouter,
-   connect( mapStateToProps, {getUserProfile, getStatus, updateStatus} )
+   connect( mapStateToProps,
+      {getUserProfile, getStatus, updateStatus, savePhoto} )
 )( ProfileContainer );
 
 export default ProfileContainerCompose;
