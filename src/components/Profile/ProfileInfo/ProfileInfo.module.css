@@ -10,4 +10,16 @@
  .userPhoto {
     height: 70px;
  }
+
+ .profileBlock {
+    font-weight: normal;
+ }
+
+ .contact {
+    padding-left: 20px;
+ }
+
+ .buttonCancel {
+    margin-left: 13px;
+ }
  

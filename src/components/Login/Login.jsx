@@ -6,7 +6,7 @@ import {ErrorMessageWrapper, validateEmailField} from "../../utils/validators/va
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {Navigate} from "react-router-dom";
-import Style from '../../utils/validators/ErrorMessage.module.css';
+import StyleVal from '../../utils/validators/ErrorMessage.module.css';
 
 
 const LoginPage = (props) => {
@@ -51,13 +51,13 @@ const LoginPage = (props) => {
 
             }}
          >
-            {props => {
+            {(propsF) => {
 
-               let {status, values, isSubmitting} = props;
+               let {status, values, isSubmitting} = propsF;
 
                //console.log( status );
                //console.log( values.general );
-               //console.log( props.isSubmitting );
+               //console.log( propsF.isSubmitting );
 
                return (
                   <Form>
@@ -70,7 +70,7 @@ const LoginPage = (props) => {
                         </div>}
 
                         {status &&
-                        <div className={Style.validationErrorMessage}>
+                        <div className={StyleVal.validationErrorMessage}>
                            ..{status} - with setStatus
                         </div>}
 
