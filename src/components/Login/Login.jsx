@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {Navigate} from "react-router-dom";
 import StyleVal from '../../utils/validators/ErrorMessage.module.css';
+import s from './Login.module.css';
 
 
 const LoginPage = (props) => {
@@ -24,7 +25,7 @@ const LoginPage = (props) => {
    }
 
    return (
-      <div>
+      <div className={s.loginBlock}>
          <h2> ... Login page </h2>
 
          <Formik
@@ -32,7 +33,8 @@ const LoginPage = (props) => {
                email: '',
                password: '',
                rememberMe: false,
-               general: ''
+               general: '',
+               captcha: ''
             }}
             validate={validateEmailField}
             validationSchema={validationSchema}
@@ -41,10 +43,10 @@ const LoginPage = (props) => {
 
                let {setStatus, setFieldValue, setSubmitting} = bagWithMethods;
 
+               //debugger
+
                props.login(
-                  values.email,
-                  values.password,
-                  values.rememberMe,
+                  values,
                   setStatus,
                   setFieldValue,
                   setSubmitting );
@@ -71,8 +73,25 @@ const LoginPage = (props) => {
 
                         {status &&
                         <div className={StyleVal.validationErrorMessage}>
-                           ..{status} - with setStatus
+                           ..{status}
                         </div>}
+
+                        {status && props.captchaUrl &&
+                           <div>
+
+                              <div>
+                                 <img src={props.captchaUrl} alt={status}/>
+                              </div>
+
+                              <div>
+                                 <Field
+                                    name={'captcha'}
+                                    type={'text'}/>
+                              </div>
+
+                           </div>
+
+                        }
 
                         <div>
                            <Field
@@ -125,8 +144,10 @@ const LoginPage = (props) => {
 }
 
 
-const mapStateToProps = (state) => (
-   {isAuth: state.auth.isAuth}
+const mapStateToProps = (state) => ({
+      isAuth: state.auth.isAuth,
+      captchaUrl: state.auth.captchaUrl
+   }
 );
 
 const LoginPageConnect = connect( mapStateToProps, {login} )( LoginPage );
