@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import {HashRouter, Routes, Route} from 'react-router-dom';
+import {Navigate, HashRouter, Routes, Route, NavLink} from 'react-router-dom';
 
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
@@ -11,15 +11,31 @@ import Preloader from "./components/common/Preloader/Preloader";
 import UsersContainer from "./components/Users/UsersContainer";
 import News from "./components/News/News";
 
-//import DialogsContainer from "./components/Dialogs/DialogsContainer";
 const DialogsContainer = React.lazy( () => import("./components/Dialogs/DialogsContainer") );
 const ProfileContainer = React.lazy( () => import("./components/Profile/ProfileContainer") );
 
 
 class App extends React.Component {
 
+
    componentDidMount() {
+
       this.props.initializeApp();
+
+      window.addEventListener( "unhandledrejection",
+         this.catchAllUnhandledErrors )
+
+   }
+
+   catchAllUnhandledErrors = (promiseRejectionEvent) => {
+      //alert( 'Some error' );
+      console.log( 'Some error' );
+      console.log( promiseRejectionEvent )
+   }
+
+   componentWillUnmount() {
+      window.removeEventListener( "unhandledrejection",
+         this.catchAllUnhandledErrors )
    }
 
    render() {
@@ -32,6 +48,7 @@ class App extends React.Component {
 
 
       return (
+         // BrowserRouter HashRouter
          <HashRouter>
 
             <div className='app-wrapper'>
@@ -43,36 +60,40 @@ class App extends React.Component {
                   <Suspense fallback={<Preloader />}>
 
                      <Routes>
+
+                        <Route
+                           path="/"
+                           element={<Navigate to="/profile" />} />
+
                         <Route
                            path='/profile/:userId'
-                           element={
-                              <ProfileContainer />} />
+                           element={<ProfileContainer />} />
+
                         <Route
                            path='/profile'
-                           element={
-                              <ProfileContainer/>
-                           } />
+                           element={<ProfileContainer />} />
+                        <Route />
 
                         <Route
                            path='/dialogs/*'
-                           element={
-                              <DialogsContainer />}
-                        />
+                           element={<DialogsContainer />} />
+
                         <Route
                            path='/users'
-                           element={
-                              <UsersContainer />}
-                        />
+                           element={<UsersContainer />} />
+
                         <Route
                            path='/login'
-                           element={
-                              <LoginPage />}
-                        />
+                           element={<LoginPage />} />
+
                         <Route
                            path='/news'
-                           element={
-                              <News />}
-                        />
+                           element={<News />} />
+
+                        <Route
+                           path='*'
+                           element={<NotFound />} />
+
                      </Routes>
 
                   </Suspense>
@@ -81,6 +102,7 @@ class App extends React.Component {
 
             </div>
          </HashRouter>
+         // BrowserRouter HashRouter
       );
    }
 }
@@ -90,6 +112,21 @@ let mapStateToProps = (state) => ({
    initialized: state.app.initialized
 
 })
+
+
+let NotFound = () => {
+   return (
+      <div className={'notFoundBlock'}>
+         <div> ...Page 404</div>
+         <div>< br /></div>
+         <div>
+            <NavLink to='/'>
+               Go to main page
+            </NavLink>
+         </div>
+      </div>
+   )
+}
 
 
 export default connect( mapStateToProps, {initializeApp} )( App );

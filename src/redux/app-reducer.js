@@ -4,7 +4,9 @@ import {getAuthUserData} from "./auth-reducer";
 const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
 
 let initialState = {
-   initialized: false
+   initialized: false,
+   // сюда можем записывать глабальныу ошибку
+   globalError: null
 }
 
 const appReducer = (state = initialState, action) => {
@@ -34,11 +36,11 @@ export const initializeApp = () => (dispatch) => {
    let promise = dispatch( getAuthUserData() );
 
 
-   Promise.all([promise])
+   Promise.all( [promise] )
       .then( () => {
-         dispatch( InitializedSuccess() );
-      }
-   );
+            dispatch( InitializedSuccess() );
+         }
+      );
 
 }
 

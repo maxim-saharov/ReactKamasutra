@@ -70,9 +70,9 @@ const ProfileDataForm = (props) => {
             initialValues={objectFromApiCopy}
             validationSchema={validationSchema}
             onSubmit={(values, bagWithMethods) => {
-               let {setStatus, setSubmitting } = bagWithMethods;
+               let {setStatus, setSubmitting} = bagWithMethods;
 
-               handleSubmit( values, setStatus, setSubmitting, goToViewMode);
+               handleSubmit( values, setStatus, setSubmitting, goToViewMode );
             }}
          >
             {(propsF) => {
@@ -93,9 +93,7 @@ const ProfileDataForm = (props) => {
                         {ErrorMessageWrapper}
                      </ErrorMessage>
 
-                     <div>
-                        < br />
-                     </div>
+                     <div>< br /></div>
 
                      <div>
                         <Field
@@ -106,9 +104,7 @@ const ProfileDataForm = (props) => {
                            <b> Looking for a job</b> </label>
                      </div>
 
-                     <div>
-                        < br />
-                     </div>
+                     <div>< br /></div>
 
                      <div>
                         <Field
@@ -121,9 +117,7 @@ const ProfileDataForm = (props) => {
                         {ErrorMessageWrapper}
                      </ErrorMessage>
 
-                     <div>
-                        < br />
-                     </div>
+                     <div>< br /></div>
 
                      <div>
                         <Field
@@ -136,9 +130,7 @@ const ProfileDataForm = (props) => {
                         {ErrorMessageWrapper}
                      </ErrorMessage>
 
-                     <div>
-                        < br />
-                     </div>
+                     <div>< br /></div>
 
                      <div>
                         <b>Contacts</b>:
@@ -153,9 +145,7 @@ const ProfileDataForm = (props) => {
                         )}
                      />
 
-                     <div>
-                        < br />
-                     </div>
+                     <div>< br /></div>
 
                      {status &&
                      <div className={StyleVal.validationErrorMessage}>
