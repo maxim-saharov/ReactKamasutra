@@ -1,6 +1,16 @@
 //
 const SEND_MESSAGE = 'SEND_MESSAGE';
 
+type DialogType = {
+   id: number,
+   name: string
+}
+
+type MassageType = {
+   id: number,
+   message: string
+}
+
 let initialState = {
 
    sidebar: [
@@ -8,17 +18,21 @@ let initialState = {
       {id: 2, name: 'Andrey'},
       {id: 3, name: 'Ivan'},
       {id: 4, name: 'Valera'},
-   ],
+   ] as Array<DialogType>,
 
    messages: [
       {id: 1, message: 'hi 11'},
       {id: 2, message: 'hi 2'},
       {id: 3, message: 'hi 3'},
-   ]
+   ] as Array<MassageType>
 
 }
 
-const dialogsReducer = (state = initialState, action) => {
+
+export type InitialStateType = typeof initialState;
+
+const dialogsReducer = (
+   state = initialState, action: any): InitialStateType => {
 
    switch (action.type) {
 
@@ -34,7 +48,7 @@ const dialogsReducer = (state = initialState, action) => {
 
          return {
             ...state,
-            messages: [...state.messages, newMessage],
+            messages: [...state.messages, newMessage]
          };
 
 
@@ -43,8 +57,17 @@ const dialogsReducer = (state = initialState, action) => {
    }
 }
 
-export const sendMessageCreator = (newMessageBody) => ({
+
+type SendMessageCreatorActionType = {
+   type: typeof SEND_MESSAGE,
+   newMessageBody: string
+}
+
+export const sendMessageCreator = (
+   newMessageBody: string): SendMessageCreatorActionType => ({
    type: SEND_MESSAGE,
-   newMessageBody})
+   newMessageBody
+})
+
 
 export default dialogsReducer;
