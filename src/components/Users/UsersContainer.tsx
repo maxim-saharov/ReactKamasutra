@@ -13,30 +13,58 @@ import {
    getCurrentPage, getFollowingInProgress, getIsFetching,
    getPageSize, getTotalUsersCount, getUsersSuperSelector
 } from "../../redux/users-selectors";
+import {UserType} from "../../types/types";
+import {AppStateType} from "../../redux/redux-store";
 
 
-class UsersContainer extends React.Component {
+type MapStatePropsType = {
+   currentPage: number,
+   pageSize: number,
+   isFetching: boolean,
+   totalUsersCount: number
+   users: Array<UserType>,
+   followingInProgress: Array<number>,
+}
+
+type MapDispatchPropsType = {
+   unfollow: (userId: number) => void,
+   follow: (userId: number) => void,
+   getUsersProps: (currentPage: number, pageSize: number) => void,
+   //
+   toggleIsFetching: (isFetching: boolean) => void,
+   setUsers: (users: Array<UserType>) => void,
+   setCurrentPage: (pageNumber: number) => void,
+}
+
+type OwnPropsType = {
+   pageTitle: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
+
+
+class UsersContainer extends React.Component<PropsType> {
 
    componentDidMount() {
       const {currentPage, pageSize} = this.props;
-      this.props.getUsersProps( currentPage, pageSize );
+      this.props.getUsersProps(currentPage, pageSize);
    }
 
-   onPageChanged = (pageNumber) => {
+   onPageChanged = (pageNumber: number) => {
       // эту менять на санки не буду оставлю для понимание как было
       // и Дима здесь ошибся - изменил тупо на то что выше.
 
-      this.props.setCurrentPage( pageNumber );
+      this.props.setCurrentPage(pageNumber);
 
-      this.props.toggleIsFetching( true );
+      this.props.toggleIsFetching(true);
 
       const {pageSize} = this.props;
 
-      usersAPI.getUsers( pageNumber, pageSize )
-         .then( data => {
-            this.props.toggleIsFetching( false );
-            this.props.setUsers( data.items )
-         } );
+      usersAPI.getUsers(pageNumber, pageSize)
+         .then(data => {
+            this.props.toggleIsFetching(false);
+            this.props.setUsers(data.items)
+         });
    }
 
 
@@ -44,6 +72,8 @@ class UsersContainer extends React.Component {
 
       return (
          <>
+            <h2> {this.props.pageTitle}</h2>
+
             {this.props.isFetching ? <Preloader /> : null}
 
             <Users
@@ -65,25 +95,27 @@ class UsersContainer extends React.Component {
 }
 
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType):MapStatePropsType=> {
 
    return {
-      users: getUsersSuperSelector( state ),
-      pageSize: getPageSize( state ),
-      totalUsersCount: getTotalUsersCount( state ),
-      currentPage: getCurrentPage( state ),
-      isFetching: getIsFetching( state ),
-      followingInProgress: getFollowingInProgress( state ),
+      users: getUsersSuperSelector(state),
+      pageSize: getPageSize(state),
+      totalUsersCount: getTotalUsersCount(state),
+      currentPage: getCurrentPage(state),
+      isFetching: getIsFetching(state),
+      followingInProgress: getFollowingInProgress(state),
    }
 }
 
+
 const UsersContainerCompose = compose(
    //WithAuthRedirect,
-   connect( mapStateToProps, {
+   connect<MapStatePropsType, MapDispatchPropsType,
+      OwnPropsType, AppStateType>(mapStateToProps, {
       follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
       getUsersProps: requestUsersThunkCreator
-   } )
-)( UsersContainer )
+   })
+)(UsersContainer)
 
 export default UsersContainerCompose;
 
@@ -98,10 +130,10 @@ export default UsersContainerCompose;
 //       isFetching: state.usersPage.isFetching,
 //       followingInProgress: state.usersPage.followingInProgress,
 //    }
-
+//
 //isAuth: geIsAuth(state)
 //isAuth={this.props.isAuth}
-
+//
 //WithAuthRedirect, - это переадресация на страницу логина - сейчас ее отключили
 // так было без compose
 // export default WithAuthRedirect(
@@ -110,12 +142,12 @@ export default UsersContainerCompose;
 //       getUsers: getUsersThunkCreator
 //    } )( UsersContainer )
 // );
-
+//
 // getUsers: getUsersThunkCreator
 // такую длинную запись специально оставили что бы понимать как оно работает
 // тоесть когда обращаемся к getUsers - мы запускаем getUsersThunkCreator
 // и туда передаем все параметры и там запускаються фвп и вф возвращается и коннект передает в параметре dispatch и запускает вф.
-
+//
 // так было раньше
 // let mapDispatchToProps = (dispatch) => {
 //
@@ -147,7 +179,7 @@ export default UsersContainerCompose;
 //
 //    }
 // }
-
+//
 // так было до подключение санок
 // this.props.toggleIsFetching( true );
 //

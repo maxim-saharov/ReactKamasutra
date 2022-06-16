@@ -80,7 +80,8 @@ class App extends React.Component {
 
                         <Route
                            path='/users'
-                           element={<UsersContainer />} />
+                           element={<UsersContainer
+                              pageTitle={'Самураи'} />} />
 
                         <Route
                            path='/login'

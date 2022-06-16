@@ -1,5 +1,4 @@
 //
-
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
@@ -9,7 +8,7 @@ import authReducer from "./auth-reducer";
 import thunkMiddleWare from 'redux-thunk'
 import appReducer from "./app-reducer";
 
-let reducers = combineReducers( {
+let rootReducers = combineReducers( {
 
    // тут ключи типо profilePage - это как бы обьекты
    // в которых лежат значения - тоест наши стейты - что тоже объекты
@@ -28,6 +27,12 @@ let reducers = combineReducers( {
 
 } );
 
+
+type RootReducersType = typeof rootReducers;
+
+export type AppStateType = ReturnType<RootReducersType>;
+
+
 // это что бы работал Redux DevTools
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(
@@ -36,8 +41,9 @@ let reducers = combineReducers( {
 //    ) );
 
 
-let store = createStore( reducers, applyMiddleware( thunkMiddleWare ) );
+let store = createStore( rootReducers, applyMiddleware( thunkMiddleWare ) );
 
+// @ts-ignore
 window.store55 = store;
 
 // store55.getState()
