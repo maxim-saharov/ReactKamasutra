@@ -8,7 +8,7 @@ import authReducer from "./auth-reducer";
 import thunkMiddleWare from 'redux-thunk'
 import appReducer from "./app-reducer";
 
-let rootReducers = combineReducers( {
+let rootReducers = combineReducers({
 
    // тут ключи типо profilePage - это как бы обьекты
    // в которых лежат значения - тоест наши стейты - что тоже объекты
@@ -25,7 +25,7 @@ let rootReducers = combineReducers( {
 
    app: appReducer
 
-} );
+});
 
 
 type RootReducersType = typeof rootReducers;
@@ -41,7 +41,7 @@ export type AppStateType = ReturnType<RootReducersType>;
 //    ) );
 
 
-let store = createStore( rootReducers, applyMiddleware( thunkMiddleWare ) );
+let store = createStore(rootReducers, applyMiddleware(thunkMiddleWare));
 
 // @ts-ignore
 window.store55 = store;
