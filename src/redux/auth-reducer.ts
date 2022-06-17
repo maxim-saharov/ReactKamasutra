@@ -1,5 +1,5 @@
 //
-import {authAPI, securityAPI} from "../api/api";
+import {authAPI, ResultCodeEnum, ResultCodeForCaptchaEnum, securityAPI} from "../api/api";
 
 const SET_USER_DATA = 'samurai-network/auth/SET_USER_DATA';
 
@@ -14,7 +14,6 @@ export type InitialStateType = {
    captchaUrl: string | null
 }
 
-
 let initialState = {
    id: null,
    login: null,
@@ -24,7 +23,6 @@ let initialState = {
    captchaUrl: null
 }
 
-
 // let initialState = {
 //    id: null as number| null,
 //    login: null as string| null,
@@ -33,7 +31,6 @@ let initialState = {
 //    isAuth: false,
 //    captchaUrl: null as string| null
 // }
-
 //export type InitialStateType = typeof initialState;
 
 const authReducer = (
@@ -100,10 +97,11 @@ export const getAuthUserData = () => async (dispatch: any) => {
 
    try {
 
-      let response = await authAPI.me();
+      let meData = await authAPI.me();
+      //response.data.data.email  // тут видно как нам тс подсказывает
 
-      if (response.data.resultCode === 0) {
-         let {id, login, email} = response.data.data;
+      if (meData.resultCode === ResultCodeEnum.Success) {
+         let {id, login, email} = meData.data;
          dispatch(setAuthUserData(id, login, email, true));
       }
 
@@ -136,11 +134,11 @@ export const login = (
    values: ValuesType, setStatus: any, setFieldValue: any,
    setSubmitting: any) => async (dispatch: any) => {
 
-   let response = await authAPI.login(values);
+   let loginData = await authAPI.login(values);
 
-   let resultCode = response.data.resultCode;
+   let resultCode = loginData.resultCode;
 
-   if (resultCode === 0) {
+   if (resultCode === ResultCodeForCaptchaEnum.Success) {
 
       dispatch(getAuthUserData());
 
@@ -148,12 +146,12 @@ export const login = (
 
       let textError = `resultCode: ${resultCode} - another mistake`;
 
-      if (response.data.messages && response.data.messages.length) {
-         textError = `resultCode: ${resultCode} - ${response.data.messages.join()}`;
+      if (loginData.messages && loginData.messages.length) {
+         textError = `resultCode: ${resultCode} - ${loginData.messages.join()}`;
       }
 
 
-      if (resultCode === 10) {
+      if (resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
 
          dispatch(getCaptchaUrl())
 
