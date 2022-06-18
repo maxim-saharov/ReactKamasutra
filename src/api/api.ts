@@ -1,6 +1,7 @@
 //
 import axios from "axios";
 import {ProfileType} from "../types/types";
+import {ValueObjLoginType} from "../redux/auth-reducer";
 
 const instance = axios.create({
    withCredentials: true,
@@ -8,12 +9,6 @@ const instance = axios.create({
    headers: {'API-KEY': 'a991bdb8-903c-4ace-9a79-3ab2d68d863e'}
 })
 
-type ValueObjLoginType = {
-   email: string,
-   password: string,
-   rememberMe: boolean,
-   captcha: null | string
-}
 
 export enum ResultCodeEnum {
    Success = 0,

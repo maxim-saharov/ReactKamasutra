@@ -1,24 +1,35 @@
 //
-import React from 'react';
+import React, {FC} from 'react';
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import {ErrorMessageWrapper, validateEmailField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {login} from "../../redux/auth-reducer";
+import {login, ValueObjLoginType} from "../../redux/auth-reducer";
 import {Navigate} from "react-router-dom";
 import StyleVal from '../../utils/validators/ErrorMessage.module.css';
 import s from './Login.module.css';
+import {AppStateType} from "../../redux/redux-store";
+
+type PropsType = MapStatePropsType & MapDispatchPropsType;
 
 
-const LoginPage = (props) => {
+type LoginFormValuesType = {
+   email: string,
+   password: string,
+   rememberMe: boolean,
+   general: string,
+   captcha: null | string
+}
 
-   const validationSchema = Yup.object().shape( {
+const LoginPage: FC<PropsType> = (props) => {
+
+   const validationSchema = Yup.object().shape({
 
       password: Yup.string()
-         .min( 2, "Must be longer than 2 characters" )
-         .max( 15, "Must be shorter than 15 characters" )
-         .required( "Required 2" )
-   } );
+         .min(2, "Must be longer than 2 characters")
+         .max(15, "Must be shorter than 15 characters")
+         .required("Required 2")
+   });
 
    if (props.isAuth) {
       return <Navigate to={'/profile'} />
@@ -39,7 +50,9 @@ const LoginPage = (props) => {
             validate={validateEmailField}
             validationSchema={validationSchema}
 
-            onSubmit={(values, bagWithMethods) => {
+            onSubmit={(
+               values: LoginFormValuesType,
+               bagWithMethods) => {
 
                let {setStatus, setFieldValue, setSubmitting} = bagWithMethods;
 
@@ -49,7 +62,7 @@ const LoginPage = (props) => {
                   values,
                   setStatus,
                   setFieldValue,
-                  setSubmitting );
+                  setSubmitting);
 
             }}
          >
@@ -77,19 +90,19 @@ const LoginPage = (props) => {
                         </div>}
 
                         {status && props.captchaUrl &&
+                        <div>
+
                            <div>
-
-                              <div>
-                                 <img src={props.captchaUrl} alt={status}/>
-                              </div>
-
-                              <div>
-                                 <Field
-                                    name={'captcha'}
-                                    type={'text'}/>
-                              </div>
-
+                              <img src={props.captchaUrl} alt={status} />
                            </div>
+
+                           <div>
+                              <Field
+                                 name={'captcha'}
+                                 type={'text'} />
+                           </div>
+
+                        </div>
 
                         }
 
@@ -144,18 +157,34 @@ const LoginPage = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
+type MapStatePropsType = {
+   isAuth: boolean,
+   captchaUrl: string | null
+}
+
+const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
       isAuth: state.auth.isAuth,
       captchaUrl: state.auth.captchaUrl
    }
 );
 
-const LoginPageConnect = connect( mapStateToProps, {login} )( LoginPage );
+type MapDispatchPropsType = {
+   login: (values: ValueObjLoginType, setStatus: any, setFieldValue: any,
+           setSubmitting: any) => void
+};
+
+type OwnPropsType = {}
+
+const LoginPageConnect = connect<MapStatePropsType, MapDispatchPropsType,
+   OwnPropsType, AppStateType>(mapStateToProps, {login})(LoginPage);
 
 export default LoginPageConnect;
 
+
+//region Description
 // так пишем если ошибку вывести без красного шрифта
 // <ErrorMessage name="email" component="div" />
 
 // lel = {errors, touched, isValid, dirty, status} = props;
+//endregion
 

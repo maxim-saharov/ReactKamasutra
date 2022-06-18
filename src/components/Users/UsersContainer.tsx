@@ -95,7 +95,7 @@ class UsersContainer extends React.Component<PropsType> {
 }
 
 
-let mapStateToProps = (state: AppStateType):MapStatePropsType=> {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
    return {
       users: getUsersSuperSelector(state),

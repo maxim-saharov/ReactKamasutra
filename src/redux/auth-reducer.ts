@@ -125,13 +125,13 @@ export const logout = () => async (dispatch: any) => {
    }
 }
 
-type ValuesType = {
+export type ValueObjLoginType = {
    email: string, password: string, rememberMe: boolean,
-   general: string, captcha: string
+   general: string, captcha: null | string
 }
 
 export const login = (
-   values: ValuesType, setStatus: any, setFieldValue: any,
+   values: ValueObjLoginType, setStatus: any, setFieldValue: any,
    setSubmitting: any) => async (dispatch: any) => {
 
    let loginData = await authAPI.login(values);
