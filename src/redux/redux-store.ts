@@ -32,7 +32,6 @@ type RootReducersType = typeof rootReducers;
 
 export type AppStateType = ReturnType<RootReducersType>;
 
-
 // это что бы работал Redux DevTools
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(
@@ -41,7 +40,15 @@ export type AppStateType = ReturnType<RootReducersType>;
 //    ) );
 
 
-let store = createStore(rootReducers, applyMiddleware(thunkMiddleWare));
+type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never;
+
+export type InferActionTypes<T extends {
+   [key: string]: (...args: any[]) => any
+}> = ReturnType<PropertiesType<T>>;
+
+
+let
+   store = createStore(rootReducers, applyMiddleware(thunkMiddleWare));
 
 // @ts-ignore
 window.store55 = store;

@@ -2,8 +2,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-   follow, unfollow, setUsers, setCurrentPage,
-   toggleIsFetching, requestUsersThunkCreator
+   follow, unfollow, actions, requestUsersThunkCreator
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
@@ -112,7 +111,9 @@ const UsersContainerCompose = compose(
    //WithAuthRedirect,
    connect<MapStatePropsType, MapDispatchPropsType,
       OwnPropsType, AppStateType>(mapStateToProps, {
-      follow, unfollow, setUsers, setCurrentPage, toggleIsFetching,
+      follow, unfollow, setUsers: actions.setUsers,
+      setCurrentPage: actions.setCurrentPage,
+      toggleIsFetching: actions.toggleIsFetching,
       getUsersProps: requestUsersThunkCreator
    })
 )(UsersContainer)
