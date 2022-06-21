@@ -1,127 +1,96 @@
 //
-import {authAPI, ResultCodeEnum, ResultCodeForCaptchaEnum, securityAPI} from "../api/api";
+import {ResultCodeEnum, ResultCodeForCaptchaEnum} from '../api/api'
+import {authAPI} from '../api/auth-api'
+import {securityAPI} from '../api/security-api'
+import {BaseThunkType, InferActionsTypes} from './redux-store'
 
-const SET_USER_DATA = 'samurai-network/auth/SET_USER_DATA';
-
-const GET_CAPTCHA_URL_SUCCESS = 'samurai-network/auth/GET_CAPTCHA_URL_SUCCESS';
-
-// это полная версия - но она выглядит что как бы код дублируем
-export type InitialStateType = {
-   id: number | null
-   login: string | null
-   email: string | null
-   isAuth: boolean
-   captchaUrl: string | null
-}
 
 let initialState = {
-   id: null,
-   login: null,
-   email: null,
+   id: null as number | null,
+   login: null as string | null,
+   email: null as string | null,
    //isAuth: true
-   isAuth: false,
-   captchaUrl: null
+   isAuth: false as boolean,
+   captchaUrl: null as string | null
 }
 
-// let initialState = {
-//    id: null as number| null,
-//    login: null as string| null,
-//    email: null as string| null,
-//    //isAuth: true
-//    isAuth: false,
-//    captchaUrl: null as string| null
-// }
-//export type InitialStateType = typeof initialState;
+type InitialStateType = typeof initialState
+
+type ActionsType = InferActionsTypes<typeof actions>
+
+type ThunkType = BaseThunkType<ActionsType>
+// так у Димыча
+//type ThunkType = BaseThunkType<ActionsTypes | FormAction>
+
 
 const authReducer = (
-   state: InitialStateType = initialState,
-   action: any): InitialStateType => {
+   state = initialState,
+   action: ActionsType): InitialStateType => {
 
    switch (action.type) {
 
-      case SET_USER_DATA:
-      case GET_CAPTCHA_URL_SUCCESS:
+      case 'SN/auth/SET_USER_DATA':
+      case 'SN/auth/GET_CAPTCHA_URL_SUCCESS':
 
          return {
-            //login55: true,
-            // сейчас тут пока вообще не работает типизация
-            // и Димыч не знает почему!
+            //login55: true, // test
             ...state,
-            //isAuth: 55, // это тесть динамич. типизации
-            ...action.payload,
-
+            //isAuth: 55,  // test
+            ...action.payload
          }
 
 
       default:
-         return state;
+         return state
    }
 
 }
 
 
-type SetAuthUserDataActionPayloadType = {
-   id: number | null, login: string | null,
-   email: string | null, isAuth: boolean
-}
+const actions = {
 
-type SetAuthUserDataActionType = {
-   type: typeof SET_USER_DATA,
-   payload: SetAuthUserDataActionPayloadType
-};
-
-const setAuthUserData = (
-   id: number | null, login: string | null,
-   email: string | null, isAuth: boolean): SetAuthUserDataActionType => ({
-   type: SET_USER_DATA,
-   payload: {id, login, email, isAuth}
-});
+   setAuthUserData: (
+      id: number | null, login: string | null,
+      email: string | null, isAuth: boolean) => ({
+      type: 'SN/auth/SET_USER_DATA',
+      payload: {id, login, email, isAuth}
+   }) as const,
 
 
-type GetCaptchaUrlSuccessActionType = {
-
-   type: typeof GET_CAPTCHA_URL_SUCCESS,
-   payload: { captchaUrl: string }
+   getCaptchaUrlSuccess: (captchaUrl: string) => ({
+      type: 'SN/auth/GET_CAPTCHA_URL_SUCCESS',
+      payload: {captchaUrl}
+   }) as const
 
 }
-
-const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessActionType => ({
-   type: GET_CAPTCHA_URL_SUCCESS,
-   payload: {captchaUrl}
-});
 
 
 // Ниже санки
-export const getAuthUserData = () => async (dispatch: any) => {
-
-
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
    try {
-
-      let meData = await authAPI.me();
-      //response.data.data.email  // тут видно как нам тс подсказывает
+      let meData = await authAPI.me()
+      //meData.data.email  // тут видно как нам тс подсказывает
 
       if (meData.resultCode === ResultCodeEnum.Success) {
-         let {id, login, email} = meData.data;
-         dispatch(setAuthUserData(id, login, email, true));
+         let {id, login, email} = meData.data
+         dispatch(actions.setAuthUserData(id, login, email, true))
       }
 
    } catch (error: any) {
 
-      console.log(error.response.status);
-      console.log(error);
+      console.log(error.response.status)
+      console.log(error)
    }
-
-
 }
 
 
-export const logout = () => async (dispatch: any) => {
+export const logout = (): ThunkType => async (dispatch) => {
 
-   let response = await authAPI.logout();
+   let response = await authAPI.logout()
 
    if (response.data.resultCode === 0) {
 
-      dispatch(setAuthUserData(null, null, null, false));
+      dispatch(actions.setAuthUserData(null, null, null, false))
    }
 }
 
@@ -132,56 +101,56 @@ export type ValueObjLoginType = {
 
 export const login = (
    values: ValueObjLoginType, setStatus: any, setFieldValue: any,
-   setSubmitting: any) => async (dispatch: any) => {
+   setSubmitting: any): ThunkType => async (dispatch) => {
 
-   let loginData = await authAPI.login(values);
+   let loginData = await authAPI.login(values)
 
-   let resultCode = loginData.resultCode;
+   let resultCode = loginData.resultCode
 
    if (resultCode === ResultCodeForCaptchaEnum.Success) {
 
-      dispatch(getAuthUserData());
+      await dispatch(getAuthUserData())
 
    } else {
 
-      let textError = `resultCode: ${resultCode} - another mistake`;
+      let textError = `resultCode: ${resultCode} - another mistake`
 
       if (loginData.messages && loginData.messages.length) {
-         textError = `resultCode: ${resultCode} - ${loginData.messages.join()}`;
+         textError = `resultCode: ${resultCode} - ${loginData.messages.join()}`
       }
 
 
       if (resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
 
-         dispatch(getCaptchaUrl())
+         await dispatch(getCaptchaUrl())
 
-         textError = `enter symbols from the picture`;
+         textError = `enter symbols from the picture`
 
       }
 
-      setStatus(textError);
-      setSubmitting(false);
+      setStatus(textError)
+      setSubmitting(false)
 
    }
 
-
 }
 
 
-export const getCaptchaUrl = () => async (dispatch: any) => {
+export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
 
-   const response = await securityAPI.getCaptchaAPI();
+   const responseData = await securityAPI.getCaptchaAPI()
 
-   const captchaUrl = response.data.url;
+   const captchaUrl = responseData.url
 
-   dispatch(getCaptchaUrlSuccess(captchaUrl));
+   dispatch(actions.getCaptchaUrlSuccess(captchaUrl))
 
 }
 
-export default authReducer;
+export default authReducer
 
 
-// бак было с зенами
+//region Description
+// так было с зенами
 // export const getAuthUserData = () => (dispatch) => {
 //
 //    return authAPI.me()
@@ -195,6 +164,56 @@ export default authReducer;
 //
 //
 // }
+
+// let initialState = {
+//    id: null as number| null,
+//    login: null as string| null,
+//    email: null as string| null,
+//    //isAuth: true
+//    isAuth: false,
+//    captchaUrl: null as string| null
+// }
+//export type InitialStateType = typeof initialState;
+
+// type SetAuthUserDataActionPayloadType = {
+//    id: number | null, login: string | null,
+//    email: string | null, isAuth: boolean
+// }
+//
+// type SetAuthUserDataActionType = {
+//    type: typeof SET_USER_DATA,
+//    payload: SetAuthUserDataActionPayloadType
+// };
+
+// const setAuthUserData = (
+//    id: number | null, login: string | null,
+//    email: string | null, isAuth: boolean): SetAuthUserDataActionType => ({
+//    type: SET_USER_DATA,
+//    payload: {id, login, email, isAuth}
+// })
+
+
+// type GetCaptchaUrlSuccessActionType = {
+//
+//    type: typeof GET_CAPTCHA_URL_SUCCESS,
+//    payload: { captchaUrl: string }
+//
+// }
+
+// const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessActionType => ({
+//    type: GET_CAPTCHA_URL_SUCCESS,
+//    payload: {captchaUrl}
+// })
+
+// это полная версия - но она выглядит что как бы код дублируем
+// export type InitialStateType = {
+//    id: number | null
+//    login: string | null
+//    email: string | null
+//    isAuth: boolean
+//    captchaUrl: string | null
+// }
+//endregion
 
 
 

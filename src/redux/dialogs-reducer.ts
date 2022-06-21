@@ -1,5 +1,6 @@
 //
-const SEND_MESSAGE = 'SEND_MESSAGE';
+import {InferActionsTypes} from './redux-store'
+
 
 type DialogType = {
    id: number,
@@ -7,7 +8,7 @@ type DialogType = {
 }
 
 type MassageType = {
-   id: number,
+   id: number | string,
    message: string
 }
 
@@ -17,13 +18,13 @@ let initialState = {
       {id: 1, name: 'Tom'},
       {id: 2, name: 'Andrey'},
       {id: 3, name: 'Ivan'},
-      {id: 4, name: 'Valera'},
+      {id: 4, name: 'Valera'}
    ] as Array<DialogType>,
 
    messages: [
       {id: 1, message: 'hi 11'},
       {id: 2, message: 'hi 2'},
-      {id: 3, message: 'hi 3'},
+      {id: 3, message: 'hi 3'}
    ] as Array<MassageType>
 
 }
@@ -31,43 +32,44 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
+type ActionsType = InferActionsTypes<typeof actions>
+
+
 const dialogsReducer = (
-   state = initialState, action: any): InitialStateType => {
+   state = initialState, action: ActionsType): InitialStateType => {
 
    switch (action.type) {
 
-      case SEND_MESSAGE:
-         let body = action.newMessageBody;
+      case 'SN/DIALOGS/SEND_MESSAGE':
+         let body = action.newMessageBody
 
          let nextIdMessages = state.messages.length + 1
 
          let newMessage = {
             id: nextIdMessages + body,
-            message: body,
-         };
+            message: body
+         }
 
          return {
             ...state,
             messages: [...state.messages, newMessage]
-         };
+         }
 
 
       default:
-         return state;
+         return state
    }
 }
 
 
-type SendMessageCreatorActionType = {
-   type: typeof SEND_MESSAGE,
-   newMessageBody: string
+export const actions = {
+
+   sendMessageCreator: (newMessageBody: string) => ({
+      type: 'SN/DIALOGS/SEND_MESSAGE',
+      newMessageBody
+   } as const)
+
 }
 
-export const sendMessageCreator = (
-   newMessageBody: string): SendMessageCreatorActionType => ({
-   type: SEND_MESSAGE,
-   newMessageBody
-})
 
-
-export default dialogsReducer;
+export default dialogsReducer

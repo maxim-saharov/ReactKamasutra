@@ -1,7 +1,6 @@
 //
-//import React from "react";
 import {connect} from "react-redux";
-import {sendMessageCreator} from "../../redux/dialogs-reducer";
+import {actions} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {WithAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
@@ -12,7 +11,7 @@ let mapDispatchToProps = (dispatch) => {
    return {
 
       sendMessage: (newMessageBody) => {
-         dispatch( sendMessageCreator( newMessageBody ) );
+         dispatch( actions.sendMessageCreator( newMessageBody ) );
 
       }
    }
@@ -32,6 +31,7 @@ const DialogsContainer = compose(
 export default DialogsContainer;
 
 
+//region Description
 // так было без compose
 //let AuthRedirectComponent = WithAuthRedirect( Dialogs );
 //
@@ -86,3 +86,4 @@ export default DialogsContainer;
 //       </StoreContext_Non.Consumer>
 //    )
 // }
+//endregion

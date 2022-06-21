@@ -1,17 +1,12 @@
-import reportWebVitals from './reportWebVitals';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import reportWebVitals from './reportWebVitals'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import store from './redux/redux-store'
+import App from './App'
+import {Provider} from 'react-redux'
 
-import store from "./redux/redux-store";
-import App from './App';
-import {Provider} from "react-redux";
 
-// setInterval(
-//    () => {
-//       store.dispatch( {type: 'FAKE'} )
-//    },
-//    1000 );
 
 ReactDOM.render(
    //<React.StrictMode>
@@ -24,10 +19,12 @@ ReactDOM.render(
 
    //</React.StrictMode>,
    document.getElementById( 'root' )
-);
+)
 
-reportWebVitals();
+reportWebVitals()
 
+
+//region Description
 // и обвертку rerenderEntireTree() -  тоже убираем
 
 // так было когда без библиотеки реак-редакс было и каждый раз все
@@ -51,5 +48,19 @@ reportWebVitals();
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
+// setInterval(
+//    () => {
+//       store.dispatch( {type: 'FAKE'} )
+//    },
+//    1000 );
+
+// let aaa = {
+//    ddd: 5,
+//    fff: 6
+// }
+
+
+//endregion
 
 

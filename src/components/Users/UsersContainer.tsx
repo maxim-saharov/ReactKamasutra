@@ -6,7 +6,6 @@ import {
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
 import {compose} from "redux";
 import {
    getCurrentPage, getFollowingInProgress, getIsFetching,
@@ -14,6 +13,7 @@ import {
 } from "../../redux/users-selectors";
 import {UserType} from "../../types/types";
 import {AppStateType} from "../../redux/redux-store";
+import {usersAPI} from "../../api/users-api";
 
 
 type MapStatePropsType = {

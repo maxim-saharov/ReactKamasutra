@@ -3,16 +3,16 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import {Navigate, HashRouter, Routes, Route, NavLink} from 'react-router-dom';
 
-import HeaderContainer from "./components/Header/HeaderContainer";
-import LoginPage from "./components/Login/Login";
-import {connect} from "react-redux";
-import {initializeApp} from "./redux/app-reducer";
-import Preloader from "./components/common/Preloader/Preloader";
-import UsersContainer from "./components/Users/UsersContainer";
-import News from "./components/News/News";
+import HeaderContainer from './components/Header/HeaderContainer';
+import LoginPage from './components/Login/Login';
+import {connect} from 'react-redux';
+import {initializeApp} from './redux/app-reducer';
+import Preloader from './components/common/Preloader/Preloader';
+import UsersContainer from './components/Users/UsersContainer';
+import News from './components/News/News';
 
-const DialogsContainer = React.lazy( () => import("./components/Dialogs/DialogsContainer") );
-const ProfileContainer = React.lazy( () => import("./components/Profile/ProfileContainer") );
+const DialogsContainer = React.lazy( () => import('./components/Dialogs/DialogsContainer') );
+const ProfileContainer = React.lazy( () => import('./components/Profile/ProfileContainer') );
 
 
 class App extends React.Component {
@@ -22,7 +22,7 @@ class App extends React.Component {
 
       this.props.initializeApp();
 
-      window.addEventListener( "unhandledrejection",
+      window.addEventListener( 'unhandledrejection',
          this.catchAllUnhandledErrors )
 
    }
@@ -34,7 +34,7 @@ class App extends React.Component {
    }
 
    componentWillUnmount() {
-      window.removeEventListener( "unhandledrejection",
+      window.removeEventListener( 'unhandledrejection',
          this.catchAllUnhandledErrors )
    }
 

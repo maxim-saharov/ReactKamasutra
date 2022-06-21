@@ -1,12 +1,12 @@
 //
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import profileReducer from "./profile-reducer";
-import dialogsReducer from "./dialogs-reducer";
-import sidebarReduce from "./sidebar-reducer";
-import usersReducer from "./users-reducer";
-import authReducer from "./auth-reducer";
-import thunkMiddleWare from 'redux-thunk'
-import appReducer from "./app-reducer";
+import {Action, applyMiddleware, combineReducers, createStore} from 'redux'
+import profileReducer from './profile-reducer'
+import dialogsReducer from './dialogs-reducer'
+import sidebarReduce from './sidebar-reducer'
+import usersReducer from './users-reducer'
+import authReducer from './auth-reducer'
+import thunkMiddleWare, {ThunkAction} from 'redux-thunk'
+import appReducer from './app-reducer'
 
 let rootReducers = combineReducers({
 
@@ -25,12 +25,18 @@ let rootReducers = combineReducers({
 
    app: appReducer
 
-});
+})
 
 
 type RootReducersType = typeof rootReducers;
 
 export type AppStateType = ReturnType<RootReducersType>;
+
+
+export type BaseThunkType<ActionTypes extends Action,
+   ReturnType = Promise<void>> = ThunkAction<ReturnType,
+   AppStateType, unknown, ActionTypes>
+
 
 // это что бы работал Redux DevTools
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -42,17 +48,32 @@ export type AppStateType = ReturnType<RootReducersType>;
 
 type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never;
 
-export type InferActionTypes<T extends {
+export type InferActionsTypes<T extends {
    [key: string]: (...args: any[]) => any
 }> = ReturnType<PropertiesType<T>>;
 
 
 let
-   store = createStore(rootReducers, applyMiddleware(thunkMiddleWare));
+   store = createStore(rootReducers, applyMiddleware(thunkMiddleWare))
 
 // @ts-ignore
-window.store55 = store;
+window.store55 = store
 
 // store55.getState()
 
-export default store;
+export default store
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

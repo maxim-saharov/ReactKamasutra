@@ -1,7 +1,9 @@
 //
 
 export type PostType = {
-   id: number, message: string, likesCount: number
+   id: number | string,
+   message: string,
+   likesCount: number
 }
 
 export type ContactsType = {
@@ -34,5 +36,6 @@ export type UserType = {
    name: string
    status: string
    photos: PhotosType
+   followed: boolean
 }
 
