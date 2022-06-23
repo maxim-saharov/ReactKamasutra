@@ -1,19 +1,27 @@
 //
-import React from "react";
-import s from './MyPosts.module.css';
-import Post from './Posts/Post';
-import {ErrorMessage, Field, Form, Formik} from "formik";
-import * as Yup from "yup";
-import {ErrorMessageWrapper} from "../../../utils/validators/validators";
+import React from 'react'
+import s from './MyPosts.module.css'
+import Post from './Posts/Post'
+import {ErrorMessage, Field, Form, Formik} from 'formik'
+import * as Yup from 'yup'
+import {ErrorMessageWrapper} from '../../../utils/validators/validators'
+import {PostType} from '../../../types/types'
 
+export type MapMyPostsPropsType = {
+   posts: Array<PostType>
+}
 
-const MyPosts = props => {
+export type DispatchMyPostsPropsType = {
+   addPost: (newPostText: string) => void
+}
+
+const MyPosts: React.FC<MapMyPostsPropsType & DispatchMyPostsPropsType> = props => {
 
    // тут reverse - для теста
    let postsElement =
       [...props.posts]
          .reverse()
-         .map( p => <Post value={p.message} likesCount={p.likesCount} key={p.id} /> );
+         .map(p => <Post value={p.message} likesCount={p.likesCount} key={p.id} />)
 
    return (
       <div className={s.postsBlock}>
@@ -31,33 +39,37 @@ const MyPosts = props => {
          </div>
 
       </div>
-   );
-};
+   )
+}
 
 
-const AddNewPostForm = (props) => {
+type AddNewPostFormPropsType = {
+   addPost: (newPostText: string) => void
+}
 
-   const validationSchema = Yup.object().shape( {
+const AddNewPostForm: React.FC<AddNewPostFormPropsType> = (props) => {
+
+   const validationSchema = Yup.object().shape({
 
       newPostText: Yup.string()
-         .min( 2, "Must be longer than 2 characters !" )
-         .max( 5, "Must be shorter than 5 characters !" )
-         .required( "Required !" )
-   } );
+         .min(2, 'Must be longer than 2 characters !')
+         .max(5, 'Must be shorter than 5 characters !')
+         .required('Required !')
+   })
 
-   const OnAddPost = (values) => {
-      props.addPost( values );
+   const OnAddPost = (values: string) => {
+      props.addPost(values)
    }
 
    return (
       <Formik
          initialValues={{
-            newPostText: ""
+            newPostText: ''
          }}
          validationSchema={validationSchema}
          onSubmit={(values, {resetForm}) => {
-            OnAddPost( values.newPostText );
-            resetForm( {values: ''} );
+            OnAddPost(values.newPostText)
+            resetForm()
          }}
       >
          {() => (
@@ -82,9 +94,10 @@ const AddNewPostForm = (props) => {
 }
 
 
-export default MyPosts;
+export default MyPosts
 
 
+//region Description
 // так было раньше без формика
 //let newPostElement = React.createRef()
 
@@ -111,3 +124,4 @@ export default MyPosts;
 
 // let postsElement =
 //    props.posts.map( p => <Post value={p.message} likesCount={p.likesCount} key={p.id} /> );
+//endregion

@@ -1,41 +1,43 @@
-import React, {Suspense} from 'react';
-import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import {Navigate, HashRouter, Routes, Route, NavLink} from 'react-router-dom';
+//
+import React, {Suspense} from 'react'
+import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import {Navigate, HashRouter, Routes, Route, NavLink} from 'react-router-dom'
 
-import HeaderContainer from './components/Header/HeaderContainer';
-import LoginPage from './components/Login/Login';
-import {connect} from 'react-redux';
-import {initializeApp} from './redux/app-reducer';
-import Preloader from './components/common/Preloader/Preloader';
-import UsersContainer from './components/Users/UsersContainer';
-import News from './components/News/News';
+import HeaderContainer from './components/Header/HeaderContainer'
+import LoginPage from './components/Login/Login'
+import {connect} from 'react-redux'
+import {initializeApp} from './redux/app-reducer'
+import Preloader from './components/common/Preloader/Preloader'
+import UsersContainer from './components/Users/UsersContainer'
+import News from './components/News/News'
+import {AppStateGlobalType} from './redux/redux-store'
 
-const DialogsContainer = React.lazy( () => import('./components/Dialogs/DialogsContainer') );
-const ProfileContainer = React.lazy( () => import('./components/Profile/ProfileContainer') );
-
-
-class App extends React.Component {
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 
 
-   componentDidMount() {
+type MapPropsType = ReturnType<typeof mapStateToProps>
 
-      this.props.initializeApp();
+type DispatchPropsType = { initializeApp: () => void }
 
-      window.addEventListener( 'unhandledrejection',
-         this.catchAllUnhandledErrors )
+class App extends React.Component<MapPropsType & DispatchPropsType> {
 
+   catchAllUnhandledErrors = (
+      promiseRejectionEvent: PromiseRejectionEvent) => {
+      console.log('Some error')
+      console.log(promiseRejectionEvent)
    }
 
-   catchAllUnhandledErrors = (promiseRejectionEvent) => {
-      //alert( 'Some error' );
-      console.log( 'Some error' );
-      console.log( promiseRejectionEvent )
+   componentDidMount() {
+      this.props.initializeApp()
+      window.addEventListener('unhandledrejection',
+         this.catchAllUnhandledErrors)
    }
 
    componentWillUnmount() {
-      window.removeEventListener( 'unhandledrejection',
-         this.catchAllUnhandledErrors )
+      window.removeEventListener('unhandledrejection',
+         this.catchAllUnhandledErrors)
    }
 
    render() {
@@ -104,11 +106,11 @@ class App extends React.Component {
             </div>
          </HashRouter>
          // BrowserRouter HashRouter
-      );
+      )
    }
 }
 
-let mapStateToProps = (state) => ({
+let mapStateToProps = (state: AppStateGlobalType) => ({
 
    initialized: state.app.initialized
 
@@ -130,7 +132,7 @@ let NotFound = () => {
 }
 
 
-export default connect( mapStateToProps, {initializeApp} )( App );
+export default connect(mapStateToProps, {initializeApp})(App)
 
 
 //BrowserRouter - раньше был - до публикации на гит хаб

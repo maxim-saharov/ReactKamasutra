@@ -1,6 +1,13 @@
-import s from './Post.module.css';
+//
+import s from './Post.module.css'
+import React from 'react'
 
-const Post = (props) => {
+type PropsType = {
+   value: string
+   likesCount: number
+}
+
+const Post: React.FC<PropsType> = (props) => {
 
    return (
 
@@ -15,7 +22,7 @@ const Post = (props) => {
          </div>
       </div>
 
-   );
+   )
 }
 
-export default Post;
+export default Post

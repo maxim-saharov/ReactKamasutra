@@ -1,24 +1,25 @@
 import reportWebVitals from './reportWebVitals'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import './index.css'
 import store from './redux/redux-store'
 import App from './App'
 import {Provider} from 'react-redux'
 
 
+const root = ReactDOM.createRoot(
+   document.getElementById( 'root' ) )
 
-ReactDOM.render(
+root.render(
    //<React.StrictMode>
 
    <Provider store={store}>
 
       <App />
 
-   </Provider>,
+   </Provider>
 
    //</React.StrictMode>,
-   document.getElementById( 'root' )
 )
 
 reportWebVitals()
@@ -59,7 +60,6 @@ reportWebVitals()
 //    ddd: 5,
 //    fff: 6
 // }
-
 
 //endregion
 

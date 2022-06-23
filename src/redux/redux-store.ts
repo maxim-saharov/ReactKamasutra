@@ -30,12 +30,12 @@ let rootReducers = combineReducers({
 
 type RootReducersType = typeof rootReducers;
 
-export type AppStateType = ReturnType<RootReducersType>;
+export type AppStateGlobalType = ReturnType<RootReducersType>;
 
 
 export type BaseThunkType<ActionTypes extends Action,
    ReturnType = Promise<void>> = ThunkAction<ReturnType,
-   AppStateType, unknown, ActionTypes>
+   AppStateGlobalType, unknown, ActionTypes>
 
 
 // это что бы работал Redux DevTools
@@ -46,15 +46,12 @@ export type BaseThunkType<ActionTypes extends Action,
 //    ) );
 
 
-type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never;
+export type InferActionsTypes<T> = T extends {
+   [key: string]: (...args: any[]) => infer U
+} ? U : never;
 
-export type InferActionsTypes<T extends {
-   [key: string]: (...args: any[]) => any
-}> = ReturnType<PropertiesType<T>>;
+let store = createStore(rootReducers, applyMiddleware(thunkMiddleWare))
 
-
-let
-   store = createStore(rootReducers, applyMiddleware(thunkMiddleWare))
 
 // @ts-ignore
 window.store55 = store
@@ -62,6 +59,14 @@ window.store55 = store
 // store55.getState()
 
 export default store
+
+
+// старая полная длиннная версия для понимания
+// type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never;
+//
+// export type InferActionsTypes<T extends {
+//    [key: string]: (...args: any[]) => any
+// }> = ReturnType<PropertiesType<T>>;
 
 
 

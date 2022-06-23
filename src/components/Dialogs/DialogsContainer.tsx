@@ -1,34 +1,26 @@
 //
-import {connect} from "react-redux";
-import {actions} from "../../redux/dialogs-reducer";
-import Dialogs from "./Dialogs";
-import {WithAuthRedirect} from "../hoc/withAuthRedirect";
-import {compose} from "redux";
+import React from 'react'
+import {connect} from 'react-redux'
+import {actions} from '../../redux/dialogs-reducer'
+import Dialogs from './Dialogs'
+import {compose} from 'redux'
+import {AppStateGlobalType} from '../../redux/redux-store'
+import {withAuthRedirect} from '../../hoc/withAuthRedirect'
 
 
-let mapDispatchToProps = (dispatch) => {
-
+let mapStateToProps = (state: AppStateGlobalType) => {
    return {
-
-      sendMessage: (newMessageBody) => {
-         dispatch( actions.sendMessageCreator( newMessageBody ) );
-
-      }
+      dialogsPage: state.dialogsPage
    }
 }
 
-let mapStateToProps = (state) => {
-   return {
-      dialogsPage: state.dialogsPage,
-   }
-}
 
-const DialogsContainer = compose(
-   connect( mapStateToProps, mapDispatchToProps ),
-   WithAuthRedirect
-)( Dialogs )
+const DialogsContainer = compose<React.ComponentType>(
+   connect(mapStateToProps, {...actions}),
+   withAuthRedirect
+)(Dialogs)
 
-export default DialogsContainer;
+export default DialogsContainer
 
 
 //region Description
@@ -85,5 +77,17 @@ export default DialogsContainer;
 //       }
 //       </StoreContext_Non.Consumer>
 //    )
+// }
+
+// так было
+// let mapDispatchToProps = (dispatch) => {
+//
+//    return {
+//
+//       sendMessage: (newMessageBody) => {
+//          dispatch( actions.sendMessage( newMessageBody ) );
+//
+//       }
+//    }
 // }
 //endregion

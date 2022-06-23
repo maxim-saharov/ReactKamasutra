@@ -1,8 +1,9 @@
-import React from "react";
-import s from './Navbar.module.css';
-import {NavLink} from "react-router-dom";
+//
+import React from 'react'
+import s from './Navbar.module.css'
+import {NavLink} from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
    return (
 
       <nav className={s.nav}>
@@ -47,8 +48,8 @@ const Navbar = () => {
             </NavLink>
          </div>
       </nav>
-   );
+   )
 
 }
 
-export default Navbar;
+export default Navbar

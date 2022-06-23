@@ -12,7 +12,7 @@ import {
    getPageSize, getTotalUsersCount, getUsersSuperSelector
 } from "../../redux/users-selectors";
 import {UserType} from "../../types/types";
-import {AppStateType} from "../../redux/redux-store";
+import {AppStateGlobalType} from "../../redux/redux-store";
 import {usersAPI} from "../../api/users-api";
 
 
@@ -94,7 +94,7 @@ class UsersContainer extends React.Component<PropsType> {
 }
 
 
-let mapStateToProps = (state: AppStateType): MapStatePropsType => {
+let mapStateToProps = (state: AppStateGlobalType): MapStatePropsType => {
 
    return {
       users: getUsersSuperSelector(state),
@@ -110,7 +110,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 const UsersContainerCompose = compose(
    //WithAuthRedirect,
    connect<MapStatePropsType, MapDispatchPropsType,
-      OwnPropsType, AppStateType>(mapStateToProps, {
+      OwnPropsType, AppStateGlobalType>(mapStateToProps, {
       follow, unfollow, setUsers: actions.setUsers,
       setCurrentPage: actions.setCurrentPage,
       toggleIsFetching: actions.toggleIsFetching,

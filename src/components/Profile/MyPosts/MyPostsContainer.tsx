@@ -1,31 +1,27 @@
 //
 import {connect} from 'react-redux'
 import {actions} from '../../../redux/profile-reducer'
-import MyPosts from './MyPosts'
+import MyPosts, {DispatchMyPostsPropsType, MapMyPostsPropsType} from './MyPosts'
+import {AppStateGlobalType} from '../../../redux/redux-store'
 
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateGlobalType) => {
    return {
       posts: state.profilePage.posts
    }
 }
 
-let mapDispatchToProps = (dispatch) => {
 
-   return {
-
-      addPost: (newPostText) => {
-         dispatch( actions.addPostActionCreator( newPostText ) )
-      }
-   }
-}
-
-
-const MyPostsContainer = connect( mapStateToProps, mapDispatchToProps )( MyPosts )
+const MyPostsContainer = connect<MapMyPostsPropsType,
+   DispatchMyPostsPropsType, {}, AppStateGlobalType>(mapStateToProps,
+   {
+      addPost: actions.addPostActionCreator
+   })(MyPosts)
 
 export default MyPostsContainer
 
 
+//region Description
 // const MyPostsContainer = () => {
 //
 //    return (
@@ -60,4 +56,15 @@ export default MyPostsContainer
 //
 //    )
 // }
+
+// let mapDispatchToProps = (dispatch) => {
+//
+//    return {
+//
+//       addPost: (newPostText) => {
+//          dispatch( actions.addPostActionCreator( newPostText ) )
+//       }
+//    }
+// }
+//endregion
 

@@ -1,14 +1,14 @@
 //
-import React, {FC} from 'react';
-import {Formik, Form, Field, ErrorMessage} from "formik";
-import * as Yup from "yup";
-import {ErrorMessageWrapper, validateEmailField} from "../../utils/validators/validators";
-import {connect} from "react-redux";
-import {login, ValueObjLoginType} from "../../redux/auth-reducer";
-import {Navigate} from "react-router-dom";
-import StyleVal from '../../utils/validators/ErrorMessage.module.css';
-import s from './Login.module.css';
-import {AppStateType} from "../../redux/redux-store";
+import React from 'react'
+import {Formik, Form, Field, ErrorMessage} from 'formik'
+import * as Yup from 'yup'
+import {ErrorMessageWrapper, validateEmailField} from '../../utils/validators/validators'
+import {connect} from 'react-redux'
+import {login, ValueObjLoginType} from '../../redux/auth-reducer'
+import {Navigate} from 'react-router-dom'
+import StyleVal from '../../utils/validators/ErrorMessage.module.css'
+import s from './Login.module.css'
+import {AppStateGlobalType} from '../../redux/redux-store'
 
 type PropsType = MapStatePropsType & MapDispatchPropsType;
 
@@ -21,15 +21,15 @@ type LoginFormValuesType = {
    captcha: null | string
 }
 
-const LoginPage: FC<PropsType> = (props) => {
+const LoginPage: React.FC<PropsType> = (props) => {
 
    const validationSchema = Yup.object().shape({
 
       password: Yup.string()
-         .min(2, "Must be longer than 2 characters")
-         .max(15, "Must be shorter than 15 characters")
-         .required("Required 2")
-   });
+         .min(2, 'Must be longer than 2 characters')
+         .max(15, 'Must be shorter than 15 characters')
+         .required('Required 2')
+   })
 
    if (props.isAuth) {
       return <Navigate to={'/profile'} />
@@ -54,7 +54,7 @@ const LoginPage: FC<PropsType> = (props) => {
                values: LoginFormValuesType,
                bagWithMethods) => {
 
-               let {setStatus, setFieldValue, setSubmitting} = bagWithMethods;
+               let {setStatus, setFieldValue, setSubmitting} = bagWithMethods
 
                //debugger
 
@@ -62,13 +62,13 @@ const LoginPage: FC<PropsType> = (props) => {
                   values,
                   setStatus,
                   setFieldValue,
-                  setSubmitting);
+                  setSubmitting)
 
             }}
          >
             {(propsF) => {
 
-               let {status, values, isSubmitting} = propsF;
+               let {status, values, isSubmitting} = propsF
 
                //console.log( status );
                //console.log( values.general );
@@ -136,7 +136,7 @@ const LoginPage: FC<PropsType> = (props) => {
 
                         <button type={'submit'}
                                 disabled={isSubmitting}
-                        >{isSubmitting ? "Please wait..." : "Submit"}</button>
+                        >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
 
                      </div>
 
@@ -162,11 +162,11 @@ type MapStatePropsType = {
    captchaUrl: string | null
 }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+const mapStateToProps = (state: AppStateGlobalType): MapStatePropsType => ({
       isAuth: state.auth.isAuth,
       captchaUrl: state.auth.captchaUrl
    }
-);
+)
 
 type MapDispatchPropsType = {
    login: (values: ValueObjLoginType, setStatus: any, setFieldValue: any,
@@ -176,9 +176,9 @@ type MapDispatchPropsType = {
 type OwnPropsType = {}
 
 const LoginPageConnect = connect<MapStatePropsType, MapDispatchPropsType,
-   OwnPropsType, AppStateType>(mapStateToProps, {login})(LoginPage);
+   OwnPropsType, AppStateGlobalType>(mapStateToProps, {login})(LoginPage)
 
-export default LoginPageConnect;
+export default LoginPageConnect
 
 
 //region Description

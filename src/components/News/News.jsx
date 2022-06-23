@@ -26,7 +26,7 @@ const News = () => {
                <a
                   href="https://maxim-saharov.github.io/ReactKamasutra/#/profile/23275"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
 
                >
                   Ссылку на мой профиль на этом сайта
@@ -49,7 +49,7 @@ const News = () => {
                <a
                   href="https://github.com/maxim-saharov/ReactKamasutra"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                >
                   Cсылка на этот проект на GitHub
                </a>

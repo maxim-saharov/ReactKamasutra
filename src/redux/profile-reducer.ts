@@ -14,14 +14,14 @@ let initialState = {
    status: '...text...'
 }
 
-export type InitialStateState = typeof initialState;
+type InitialStateType = typeof initialState;
 
 type ActionsType = InferActionsTypes<typeof actions>
 
 type ThunkType = BaseThunkType<ActionsType>
 
 
-const profileReducer = (state = initialState, action: ActionsType): InitialStateState => {
+const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
    switch (action.type) {
 
