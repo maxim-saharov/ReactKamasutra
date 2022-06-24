@@ -1,6 +1,5 @@
 //
 import {GetItemsType, instance, APIResponseType} from './api'
-import {AxiosPromise} from 'axios'
 
 
 export const usersAPI = {
@@ -17,11 +16,16 @@ export const usersAPI = {
 
 
    unfollow(userId: number) {
-      return instance.delete(`follow/${userId}`)
-         .then(res => res.data) as AxiosPromise<APIResponseType>
+      return instance.delete<APIResponseType>(`follow/${userId}`)
+         .then(res => res.data)
    }
 
 }
 
+
 // аксиус делит не возвражает ничего по умодчанию и мы сделали
 // свою принудительную типизацию
+// unfollow(userId: number) {
+//    return instance.delete(`follow/${userId}`)
+//       .then(res => res.data) //as Promise<APIResponseType>
+// }

@@ -1,12 +1,10 @@
-//
+
 import {getAuthUserData} from './auth-reducer'
 import {BaseThunkType, InferActionsTypes} from './redux-store'
-
 
 let initialState = {
    initialized: false
 }
-
 
 type InitialStateType = typeof initialState
 
