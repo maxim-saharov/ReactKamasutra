@@ -1,8 +1,11 @@
 //
-import React, {FC} from "react";
-import Paginator from "../common/Paginator/Paginator";
-import User from "./User";
-import {UserType} from "../../types/types";
+import React, {FC} from 'react'
+import Paginator from '../common/Paginator/Paginator'
+import User from './User'
+import {UserType} from '../../types/types'
+import UsersSearchForm from './UsersSearchForm'
+import {FilterUsersReducerType} from '../../redux/users-reducer'
+
 
 
 type PropsType = {
@@ -15,6 +18,7 @@ type PropsType = {
    users: Array<UserType>,
 
    onPageChanged: (pageNumber: number) => void
+   onFilterChanged: (filter: FilterUsersReducerType) => void
 }
 
 let Users: FC<PropsType> = (props) => {
@@ -23,11 +27,15 @@ let Users: FC<PropsType> = (props) => {
       currentPage, onPageChanged, totalUsersCount,
       pageSize, followingInProgress, unfollow, follow,
       users
-   } = props;
+   } = props
 
 
    return (
       <div>
+
+         <div>
+            <UsersSearchForm onFilterChanged={props.onFilterChanged}/>
+         </div>
 
          <Paginator currentPage={currentPage}
                     onPageChanged={onPageChanged}
@@ -49,7 +57,7 @@ let Users: FC<PropsType> = (props) => {
       </div>)
 }
 
-export default Users;
+export default Users
 
 
 

@@ -4,8 +4,17 @@ import {GetItemsType, instance, APIResponseType} from './api'
 
 export const usersAPI = {
 
-   getUsers(currentPage: number, pageSize: number) {
-      return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
+   getUsersAPI(currentPage: number, pageSize: number,
+               term: string = '', friend: null | boolean = null) {
+
+
+      const urlQuery = `users?page=${currentPage}&count=${pageSize}`
+         + (term === '' ? '' : `&term=${term}`)
+         + (friend === null ? '' : `&friend=${friend}`)
+
+      debugger
+
+      return instance.get<GetItemsType>(urlQuery)
          .then(response => response.data)
    },
 

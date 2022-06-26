@@ -1,19 +1,18 @@
 //
-import React from "react";
-import {connect} from "react-redux";
+import React from 'react'
+import {connect} from 'react-redux'
 import {
-   follow, unfollow, actions, requestUsersThunkCreator
-} from "../../redux/users-reducer";
-import Users from "./Users";
-import Preloader from "../common/Preloader/Preloader";
-import {compose} from "redux";
+   follow, unfollow, requestUsers, FilterUsersReducerType
+} from '../../redux/users-reducer'
+import Users from './Users'
+import Preloader from '../common/Preloader/Preloader'
+import {compose} from 'redux'
 import {
    getCurrentPage, getFollowingInProgress, getIsFetching,
-   getPageSize, getTotalUsersCount, getUsersSuperSelector
-} from "../../redux/users-selectors";
-import {UserType} from "../../types/types";
-import {AppStateGlobalType} from "../../redux/redux-store";
-import {usersAPI} from "../../api/users-api";
+   getPageSize, getTotalUsersCount, getUsersFilter, getUsersSuperSelector
+} from '../../redux/users-selectors'
+import {UserType} from '../../types/types'
+import {AppStateGlobalType} from '../../redux/redux-store'
 
 
 type MapStatePropsType = {
@@ -23,16 +22,15 @@ type MapStatePropsType = {
    totalUsersCount: number
    users: Array<UserType>,
    followingInProgress: Array<number>,
+   filter: FilterUsersReducerType
 }
 
 type MapDispatchPropsType = {
    unfollow: (userId: number) => void,
    follow: (userId: number) => void,
-   getUsersProps: (currentPage: number, pageSize: number) => void,
-   //
-   toggleIsFetching: (isFetching: boolean) => void,
-   setUsers: (users: Array<UserType>) => void,
-   setCurrentPage: (pageNumber: number) => void,
+   getUsers: (
+      currentPage: number, pageSize: number,
+      filter: FilterUsersReducerType) => void,
 }
 
 type OwnPropsType = {
@@ -45,25 +43,22 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
 class UsersContainer extends React.Component<PropsType> {
 
    componentDidMount() {
-      const {currentPage, pageSize} = this.props;
-      this.props.getUsersProps(currentPage, pageSize);
+      const {currentPage, pageSize, filter} = this.props
+      this.props.getUsers(currentPage, pageSize, filter)
    }
 
+
    onPageChanged = (pageNumber: number) => {
-      // эту менять на санки не буду оставлю для понимание как было
-      // и Дима здесь ошибся - изменил тупо на то что выше.
+      const {pageSize, filter} = this.props
+      this.props.getUsers(pageNumber, pageSize, filter)
+   }
 
-      this.props.setCurrentPage(pageNumber);
+   onFilterChanged = (filter: FilterUsersReducerType) => {
 
-      this.props.toggleIsFetching(true);
+      const {pageSize} = this.props
+      this.props.getUsers(1, pageSize, filter)
 
-      const {pageSize} = this.props;
 
-      usersAPI.getUsers(pageNumber, pageSize)
-         .then(data => {
-            this.props.toggleIsFetching(false);
-            this.props.setUsers(data.items)
-         });
    }
 
 
@@ -79,8 +74,9 @@ class UsersContainer extends React.Component<PropsType> {
                totalUsersCount={this.props.totalUsersCount}
                pageSize={this.props.pageSize}
 
-               onPageChanged={this.onPageChanged}
                currentPage={this.props.currentPage}
+               onPageChanged={this.onPageChanged}
+               onFilterChanged={this.onFilterChanged}
                users={this.props.users}
 
                unfollow={this.props.unfollow}
@@ -103,22 +99,19 @@ let mapStateToProps = (state: AppStateGlobalType): MapStatePropsType => {
       currentPage: getCurrentPage(state),
       isFetching: getIsFetching(state),
       followingInProgress: getFollowingInProgress(state),
+      filter: getUsersFilter(state)
    }
 }
 
 
 const UsersContainerCompose = compose(
-   //WithAuthRedirect,
    connect<MapStatePropsType, MapDispatchPropsType,
       OwnPropsType, AppStateGlobalType>(mapStateToProps, {
-      follow, unfollow, setUsers: actions.setUsers,
-      setCurrentPage: actions.setCurrentPage,
-      toggleIsFetching: actions.toggleIsFetching,
-      getUsersProps: requestUsersThunkCreator
+      follow, unfollow, getUsers: requestUsers
    })
 )(UsersContainer)
 
-export default UsersContainerCompose;
+export default UsersContainerCompose
 
 
 // оставили для понимания как было
@@ -135,6 +128,7 @@ export default UsersContainerCompose;
 //isAuth: geIsAuth(state)
 //isAuth={this.props.isAuth}
 //
+// withAuthRedirect - по идее так она должна была называться
 //WithAuthRedirect, - это переадресация на страницу логина - сейчас ее отключили
 // так было без compose
 // export default WithAuthRedirect(

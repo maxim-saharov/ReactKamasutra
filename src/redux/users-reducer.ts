@@ -14,11 +14,13 @@ let initialState = {
    currentPage: 2,
    isFetching: false,
    followingInProgress: [] as Array<number>, // array of users ids
-   //fake: 10
+   filter: {term: '', friend: null as null | boolean}
 }
 
 
 export type InitialStateUsersReducerType = typeof initialState
+
+export type FilterUsersReducerType = typeof initialState.filter
 
 type ActionsType = InferActionsTypes<typeof actions>
 
@@ -66,18 +68,31 @@ const usersReducer = (
          }
 
       case 'SN/USERS/SET_TOTAL_USERS_COUNT':
-         //alert(action.totalUsersCount)
-         return {
-            ...state
-            //totalUsersCount: action.totalUsersCount
-            // если так вывести то создаст 4 тыс страниц!
 
+         if (action.totalUsersCount > 101) {
+            return {
+               ...state,
+               totalUsersCount: 101
+               // если так вывести без условия то создаст 4 тыс страниц!
+            }
+         } else {
+            return {
+               ...state,
+               totalUsersCount: action.totalUsersCount
+            }
          }
+
 
       case 'SN/USERS/TOGGLE_IS_FETCHING':
          return {
             ...state,
             isFetching: action.isFetching
+         }
+
+      case 'SN/USERS/SET_FILTER':
+         return {
+            ...state,
+            filter: action.payload
          }
 
       case 'SN/USERS/TOGGLE_IS_FOLLOWING_PROGRESS':
@@ -110,6 +125,11 @@ export const actions = {
       currentPage
    } as const),
 
+   setFilter: (filter: FilterUsersReducerType) => ({
+      type: 'SN/USERS/SET_FILTER',
+      payload: filter
+   } as const),
+
 
    setTotalUsersCount: (
       totalUsersCount: number) => ({
@@ -137,20 +157,20 @@ export const actions = {
 
 // ниже санки
 
-export const requestUsersThunkCreator = (
-   page: number, pageSize: number): ThunkType => {
+export const requestUsers = (
+   page: number, pageSize: number, filter: FilterUsersReducerType): ThunkType => {
 
    return async (
       dispatch) => {
 
-      //let aaa = getState().ssss; // это для теста
-
       dispatch(actions.toggleIsFetching(true))
 
-      //dispatch( setCurrentPage( page ) );
-      // у Димыча это включенно но наврядли у него все верно работает
+      dispatch(actions.setCurrentPage(page))
 
-      let data = await usersAPI.getUsers(page, pageSize)
+      dispatch(actions.setFilter(filter))
+
+      let data = await usersAPI.getUsersAPI(
+         page, pageSize, filter.term, filter.friend)
 
       dispatch(actions.toggleIsFetching(false))
       dispatch(actions.setUsers(data.items))
@@ -159,12 +179,14 @@ export const requestUsersThunkCreator = (
 
 }
 
+
 type ActionCreatorTypesFor_followUnfollowFlow = (
    userId: number) => ActionsType;
 
 type DispatchType = Dispatch<ActionsType>;
 
-type ApiMethodType = (userId: number)=>Promise<APIResponseType>
+type ApiMethodType = (userId: number) => Promise<APIResponseType>
+
 
 let _followUnfollowFlow = async (
    dispatch: DispatchType, userId: number,
@@ -214,6 +236,12 @@ export default usersReducer
 
 
 //region Description
+
+// let initialState = {
+//    //fake: 10
+// }
+
+//let aaa = getState().ssss; // это для теста
 
 // выше для понимая длинная запись в переменой - totalUsersCount - число 18215
 // просто currentPage - это тоже самое что и currentPage: currentPage
