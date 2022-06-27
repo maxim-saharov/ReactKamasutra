@@ -1,37 +1,35 @@
 //
 import React from 'react'
-import {Formik, Form, Field, ErrorMessage} from 'formik'
+import {ErrorMessage, Field, Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import {ErrorMessageWrapper, validateEmailField} from '../../utils/validators/validators'
-import {connect} from 'react-redux'
-import {login, ValueObjLoginType} from '../../redux/auth-reducer'
+import {useDispatch, useSelector} from 'react-redux'
+import {login} from '../../redux/auth-reducer'
 import {Navigate} from 'react-router-dom'
 import StyleVal from '../../utils/validators/ErrorMessage.module.css'
 import s from './Login.module.css'
 import {AppStateGlobalType} from '../../redux/redux-store'
 
-type PropsType = MapStatePropsType & MapDispatchPropsType;
+const validationSchema = Yup.object().shape({
+   password: Yup.string()
+      .min(2, 'Must be longer than 2 characters')
+      .max(15, 'Must be shorter than 15 characters')
+      .required('Required 2')
+})
 
 
-type LoginFormValuesType = {
-   email: string,
-   password: string,
-   rememberMe: boolean,
-   general: string,
-   captcha: null | string
-}
+export const LoginPage: React.FC = () => {
 
-const LoginPage: React.FC<PropsType> = (props) => {
+   const captchaUrl = useSelector(
+      (state: AppStateGlobalType) => state.auth.captchaUrl)
 
-   const validationSchema = Yup.object().shape({
+   const isAuth = useSelector(
+      (state: AppStateGlobalType) => state.auth.isAuth)
 
-      password: Yup.string()
-         .min(2, 'Must be longer than 2 characters')
-         .max(15, 'Must be shorter than 15 characters')
-         .required('Required 2')
-   })
+   const dispatch = useDispatch()
 
-   if (props.isAuth) {
+
+   if (isAuth) {
       return <Navigate to={'/profile'} />
    }
 
@@ -51,32 +49,26 @@ const LoginPage: React.FC<PropsType> = (props) => {
             validationSchema={validationSchema}
 
             onSubmit={(
-               values: LoginFormValuesType,
+               values,
                bagWithMethods) => {
 
                let {setStatus, setFieldValue, setSubmitting} = bagWithMethods
 
-               //debugger
-
-               props.login(
+               dispatch(login(
                   values,
                   setStatus,
                   setFieldValue,
-                  setSubmitting)
-
+                  setSubmitting))
             }}
          >
             {(propsF) => {
-
                let {status, values, isSubmitting} = propsF
-
                //console.log( status );
                //console.log( values.general );
                //console.log( propsF.isSubmitting );
 
                return (
                   <Form>
-
                      <div>
 
                         {values.general &&
@@ -89,11 +81,11 @@ const LoginPage: React.FC<PropsType> = (props) => {
                            ..{status}
                         </div>}
 
-                        {status && props.captchaUrl &&
+                        {status && captchaUrl &&
                         <div>
 
                            <div>
-                              <img src={props.captchaUrl} alt={status} />
+                              <img src={captchaUrl} alt={status} />
                            </div>
 
                            <div>
@@ -103,7 +95,6 @@ const LoginPage: React.FC<PropsType> = (props) => {
                            </div>
 
                         </div>
-
                         }
 
                         <div>
@@ -139,8 +130,6 @@ const LoginPage: React.FC<PropsType> = (props) => {
                         >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
 
                      </div>
-
-
                   </Form>
                )
             }
@@ -151,34 +140,9 @@ const LoginPage: React.FC<PropsType> = (props) => {
             ...
          </div>
 
-
       </div>
    )
 }
-
-
-type MapStatePropsType = {
-   isAuth: boolean,
-   captchaUrl: string | null
-}
-
-const mapStateToProps = (state: AppStateGlobalType): MapStatePropsType => ({
-      isAuth: state.auth.isAuth,
-      captchaUrl: state.auth.captchaUrl
-   }
-)
-
-type MapDispatchPropsType = {
-   login: (values: ValueObjLoginType, setStatus: any, setFieldValue: any,
-           setSubmitting: any) => void
-};
-
-type OwnPropsType = {}
-
-const LoginPageConnect = connect<MapStatePropsType, MapDispatchPropsType,
-   OwnPropsType, AppStateGlobalType>(mapStateToProps, {login})(LoginPage)
-
-export default LoginPageConnect
 
 
 //region Description

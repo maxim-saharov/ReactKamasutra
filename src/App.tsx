@@ -2,16 +2,16 @@
 import React, {Suspense} from 'react'
 import './App.css'
 import Navbar from './components/Navbar/Navbar'
-import {Navigate, HashRouter, Routes, Route, NavLink} from 'react-router-dom'
+import {HashRouter, Navigate, NavLink, Route, Routes} from 'react-router-dom'
 
 import HeaderContainer from './components/Header/HeaderContainer'
-import LoginPage from './components/Login/Login'
 import {connect} from 'react-redux'
 import {initializeApp} from './redux/app-reducer'
 import Preloader from './components/common/Preloader/Preloader'
-import UsersContainer from './components/Users/UsersContainer'
+import {UserPage} from './components/Users/UsersContainer'
 import News from './components/News/News'
 import {AppStateGlobalType} from './redux/redux-store'
+import {LoginPage} from './components/Login/Login'
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
@@ -82,7 +82,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
 
                         <Route
                            path='/users'
-                           element={<UsersContainer
+                           element={<UserPage
                               pageTitle={'Самураи'} />} />
 
                         <Route

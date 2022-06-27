@@ -12,8 +12,6 @@ export const usersAPI = {
          + (term === '' ? '' : `&term=${term}`)
          + (friend === null ? '' : `&friend=${friend}`)
 
-      debugger
-
       return instance.get<GetItemsType>(urlQuery)
          .then(response => response.data)
    },
