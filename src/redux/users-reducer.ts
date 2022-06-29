@@ -11,7 +11,7 @@ let initialState = {
    users: [] as Array<UserType>,
    pageSize: 5,
    totalUsersCount: 101,
-   currentPage: 2,
+   currentPage: 1,
    isFetching: false,
    followingInProgress: [] as Array<number>, // array of users ids
    filter: {term: '', friend: null as null | boolean}

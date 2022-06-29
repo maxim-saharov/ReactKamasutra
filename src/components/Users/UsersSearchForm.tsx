@@ -2,6 +2,8 @@
 import {Field, Form, Formik} from 'formik'
 import React from 'react'
 import {FilterUsersReducerType} from '../../redux/users-reducer'
+import {useSelector} from 'react-redux'
+import {getUsersFilter} from '../../redux/users-selectors'
 
 
 type SetSubmittingType = {
@@ -19,18 +21,20 @@ type FormValuesType = {
 
 const UsersSearchForm: React.FC<PropsType> = (props) => {
 
+   const filter = useSelector(getUsersFilter)
+
    const submit = (
       values: FormValuesType,
       {setSubmitting}: SetSubmittingType) => {
 
-      const filter: FilterUsersReducerType = {
+      const filter2: FilterUsersReducerType = {
          term: values.term,
          friend: values.friend === 'true'
             ? true
             : values.friend === 'false' ? false : null
       }
 
-      props.onFilterChanged(filter)
+      props.onFilterChanged(filter2)
 
       setSubmitting(false)
    }
@@ -39,7 +43,11 @@ const UsersSearchForm: React.FC<PropsType> = (props) => {
       <div>
 
          <Formik
-            initialValues={{term: '', friend: ''}}
+            enableReinitialize
+            initialValues={{
+               term: filter.term,
+               friend: String(filter.friend)
+            }}
 
             onSubmit={submit}
          >
