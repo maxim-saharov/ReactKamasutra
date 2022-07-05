@@ -49,20 +49,20 @@ const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
    return (
       <div>
 
-         <div className={s.photoBlock}>
-            <img src='https://html5css.ru/css/img_forest.jpg' alt='photo555' />
-         </div>
+
 
          <div className={s.descriptionBlock}>
 
-            <img src={profile.photos.small !== null
-               ? profile.photos.small
+            <img src={profile.photos.large !== null
+               ? profile.photos.large
                : userPhoto}
                  className={styles.userPhoto}
                  alt={alt_descriptionBlock}
             />
 
-            ...Avatar - {profile.fullName} - userId - {profile.userId}
+            <div>
+               {profile.fullName} - userId - {profile.userId}
+            </div>
 
             <div>
                {props.isOwner
@@ -162,3 +162,8 @@ const Contacts: React.FC<ContactsPropsType> = ({contactTitle, contactValue}) => 
 }
 
 export default ProfileInfo
+
+//small
+// {/*<div className={s.photoBlock}>*/}
+// {/*   <img src='https://html5css.ru/css/img_forest.jpg' alt='photo555' />*/}
+// {/*</div>*/}

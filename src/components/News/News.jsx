@@ -11,7 +11,6 @@ const News = () => {
       <div className={s.newsBlock}>
 
          <div>
-            <br/>
             maxim_saharov - userId - 23275
          </div>
 

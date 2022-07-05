@@ -34,9 +34,9 @@ const Dialogs: FC<DialogsPropsType> = (props) => {
 
             <div>{messagesElement}</div>
 
-            <AddMassageForm sendMessage={props.sendMessage} />
-
          </div>
+
+         <AddMassageForm sendMessage={props.sendMessage} />
 
       </div>
    )
@@ -81,7 +81,7 @@ const AddMassageForm: FC<AddMassageFormPropsType> = (props) => {
                   <Field
                      name={'newMessageBody'}
                      as={'textarea'}
-                     placeholder={'enter text 2'}
+                     placeholder={'Enter your message'}
                   />
                </div>
                <ErrorMessage name="newMessageBody">

@@ -78,7 +78,7 @@ const AddNewPostForm: React.FC<AddNewPostFormPropsType> = (props) => {
                   <Field
                      name={'newPostText'}
                      as={'textarea'}
-                     placeholder={'enter text 1'}
+                     placeholder={'Enter your message'}
                   />
                </div>
 

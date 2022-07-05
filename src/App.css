@@ -1,73 +1,22 @@
-.app-wrapper {
-   width: 1200px;
-   margin: 0 auto;
-   display: grid;
-   grid-template-areas:
-      "h h"
-      "n c";
+/**/
 
-   grid-template-rows: 68px 1fr;
-   grid-template-columns: 120px 10fr;
-   /* grid-gap: 10px; */
-}
+/*.app-wrapper {*/
+/*   width: 1200px;*/
+/*   margin: 0 auto;*/
+/*   display: grid;*/
+/*   grid-template-areas:*/
+/*      "h h"*/
+/*      "n c";*/
 
-.app-wrapper-content {
+/*   grid-template-rows: 68px 1fr;*/
+/*   grid-template-columns: 120px 10fr;*/
+/*   !* grid-gap: 10px; *!*/
+/*}*/
 
-   grid-area: c;
-   background-color: #4f4fe5;
-   /*background-color: #0000ff;*/
-   font-weight: bold;
-}
+/*.app-wrapper-content {*/
 
-.notFoundBlock {
-   padding: 30px;
-}
-
-
-
-
-/* ul li{
-  list-style-type: georgian;
-  font-size: 26px;
-  color: blue;
-} */
-
-
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61fb82;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
+/*   grid-area: c;*/
+/*   background-color: #4f4fe5;*/
+/*   !*background-color: #0000ff;*!*/
+/*   font-weight: bold;*/
+/*}*/

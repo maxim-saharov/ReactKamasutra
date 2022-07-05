@@ -53,3 +53,5 @@ const Navbar: React.FC = () => {
 }
 
 export default Navbar
+
+// у димы тут через activeClassName активные ссылки были сделанны

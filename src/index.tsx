@@ -2,9 +2,11 @@ import reportWebVitals from './reportWebVitals'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import 'antd/dist/antd.css'
 import store from './redux/redux-store'
 import App from './App'
 import {Provider} from 'react-redux'
+import {HashRouter} from 'react-router-dom'
 
 
 const root = ReactDOM.createRoot(
@@ -13,13 +15,20 @@ const root = ReactDOM.createRoot(
 root.render(
    //<React.StrictMode>
 
-   <Provider store={store}>
+   // // BrowserRouter HashRouter
+   <HashRouter>
 
-      <App />
+      <Provider store={store}>
 
-   </Provider>
+         <App />
 
-   //</React.StrictMode>,
+      </Provider>
+
+   </HashRouter>
+
+// BrowserRouter HashRouter
+
+//</React.StrictMode>,
 )
 
 reportWebVitals()
