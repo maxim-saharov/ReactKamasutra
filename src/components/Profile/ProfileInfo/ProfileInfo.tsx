@@ -88,7 +88,8 @@ const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
 
                <ProfileStatusWithHooks
                   status={props.status}
-                  updateStatus={props.updateStatus} />
+                  updateStatus={props.updateStatus}
+                  isOwner={props.isOwner} />
 
             </div>
 

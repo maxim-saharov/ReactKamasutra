@@ -11,7 +11,7 @@ let initialState = {
       {id: 3, message: 'Post: 103', likesCount: 15}
    ] as Array<PostType>,
    profile: null as ProfileType | null,
-   status: '...text...'
+   status: 'double click here to change status'
 }
 
 type InitialStateType = typeof initialState;

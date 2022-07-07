@@ -53,7 +53,7 @@ const AddNewPostForm: React.FC<AddNewPostFormPropsType> = (props) => {
 
       newPostText: Yup.string()
          .min(2, 'Must be longer than 2 characters !')
-         .max(5, 'Must be shorter than 5 characters !')
+         .max(100, 'Must be shorter than 100 characters !')
          .required('Required !')
    })
 

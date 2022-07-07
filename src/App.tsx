@@ -18,6 +18,7 @@ import {LaptopOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons'
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -64,7 +65,11 @@ const itemsSideMenu: MenuItem[] = [
             Developers list
          </Link>,
          'DevelopersList'),
-      getItem('Developers chat', 'DevelopersChat')
+      getItem(
+         <Link to='/chat'>
+            Developers chat
+         </Link>,
+         'DevelopersChat')
    ]),
 
    getItem('Settings', 'Settings', <SettingOutlined />, [
@@ -80,6 +85,7 @@ const itemsSideMenu: MenuItem[] = [
          'Music')
    ])
 ]
+
 //endregion antd
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
@@ -101,6 +107,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
       window.removeEventListener('unhandledrejection',
          this.catchAllUnhandledErrors)
    }
+
    //endregion
 
    render() {
@@ -155,6 +162,9 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                            <Route
                               path='/news'
                               element={<News />} />
+                           <Route
+                              path='/chat'
+                              element={<ChatPage />} />
                            <Route
                               path='*'
                               element={<NotFound />} />

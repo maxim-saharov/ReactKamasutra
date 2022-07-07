@@ -1,5 +1,10 @@
 //
 
+import {ChangeEvent} from 'react'
+
+export type TextAreaOrInputOnChangeType =
+   ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+
 export type PostType = {
    id: number | string,
    message: string,

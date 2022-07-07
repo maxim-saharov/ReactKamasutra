@@ -53,7 +53,7 @@ const AddMassageForm: FC<AddMassageFormPropsType> = (props) => {
 
       newMessageBody: Yup.string()
          .min(2, 'Must be longer than 2 characters !')
-         .max(5, 'Must be shorter than 5 characters !')
+         .max(100, 'Must be shorter than 100 characters !')
          .required('Required !')
    })
 
@@ -131,7 +131,7 @@ export default Dialogs
 // если что то конкретное хотим сбросить то пишем так
 // resetForm({values: {newMessageBody: ''}})
 // а иначе оно скидывает до инициализационного состояния
-
+// а иначе оно скидывает до инициализационного состояния, а ин до - это знаков уже с пробелами -100
 //endregion
 
 
