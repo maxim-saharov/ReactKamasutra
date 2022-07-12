@@ -1,21 +1,29 @@
 //
-import React, {useEffect, useState} from 'react'
+import React, {UIEvent, useEffect, useRef, useState} from 'react'
 import {Spin} from 'antd'
 import {TextAreaOrInputOnChangeType} from '../../types/types'
-import {outputDateSeconds, uniqueIdGetTimeInStringPlusIndex} from '../../utils/object-helpers'
+import {outputDateSeconds} from '../../utils/object-helpers'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectIsAuth} from '../../redux/auth-selectors'
+import {ChatMessagesApiType} from '../../api/chat-api'
+import {sendMessage, startMessagesListening, stopMessagesListening} from '../../redux/chat-reducer'
+import {AppStateGlobalType} from '../../redux/redux-store'
 
-
-export type ChatMessagesType = {
-   message: string
-   photo: string
-   userId: number
-   userName: string
-}
 
 const ChatPage: React.FC = () => {
+
+   const isAuth = useSelector(selectIsAuth)
+
    return (
       <div>
-         <Chat />
+         <div>
+            {isAuth
+               ? <Chat />
+               : <AddMessageForm
+                  isAuth={isAuth} />
+            }
+         </div>
+
       </div>
    )
 }
@@ -23,97 +31,110 @@ const ChatPage: React.FC = () => {
 
 const Chat: React.FC = () => {
 
-   const [wsChannel, setWsChannel] = useState<WebSocket | null>(null)
-   const [isWsChannelOpen, setIsWsChannelOpen] = useState(false)
+   const dispatch = useDispatch()
+
+   const status = useSelector((state: AppStateGlobalType) => state.chat.status)
 
 
    useEffect(() => {
 
-      let ws: WebSocket
+      console.log('старт', outputDateSeconds())
 
-      const closeHandler = () => {
-         console.log('close с addEventListener', outputDateSeconds())
-         setIsWsChannelOpen(false)
-         setTimeout(createChanel, 5000)
-      }
-
-      function createChanel() {
-
-         if (ws !== undefined) {
-            ws.removeEventListener('close', closeHandler)
-            ws.close()
-            console.log('просто удалили подписку', outputDateSeconds())
-         }
-
-
-         ws = new WebSocket(
-            'wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
-
-
-         ws.addEventListener('close', closeHandler)
-
-         setWsChannel(ws)
-
-      }
-
-      createChanel()
+      dispatch(startMessagesListening())
 
       return () => {
-         ws.removeEventListener('close', closeHandler)
-         ws.close()
+         dispatch(stopMessagesListening())
       }
 
-   }, [])
+   }, [dispatch])
 
 
    return (
       <div>
-         <Messages wsChannel={wsChannel} />
-         <AddMessageForm
-            wsChannel={wsChannel}
-            setWsChannelOpen={setIsWsChannelOpen}
-            isWsChannelOpen={isWsChannelOpen} />
+
+         {status === 'error'
+         && <div> Some error occurred. Please refresh the page </div>}
+
+         <>
+            <Messages />
+            <AddMessageForm
+               isAuth={true} />
+         </>
+
       </div>
    )
 }
 
-const Messages: React.FC<{ wsChannel: WebSocket | null }> = ({wsChannel}) => {
 
-   const [messages, setMessages] = useState<ChatMessagesType[]>([])
+const Messages: React.FC = () => {
 
-   console.log(messages)
+   console.log('>>>Messages')
+
+   const messages = useSelector((state: AppStateGlobalType) => state.chat.messages)
+
+   const messagesAnchorRef = useRef<HTMLDivElement>(null)
+
+   const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
+
+   const onScrollHandler = (e: UIEvent<HTMLDivElement>) => {
+
+      const element = e.currentTarget
+
+      let differenceWhatWeSee = element.scrollHeight - element.scrollTop
+      //element.scrollHeight - высота всей таблицы пикселей - 3800 например
+      // element.scrollTop - сколько сейчас в
+      // верхней точке длинна пикселей - 3400 например
+      // прокрутка вверх то тут уже 3300 и разница уже 500 пикселей
+
+
+      let value = Math.abs(differenceWhatWeSee - element.clientHeight)
+      //let value = differenceWhatWeSee - element.clientHeight
+      // element.clientHeight - всегда как у див тоесть = 400
+      // 500 - 400 = 100
+
+      if (value < 300) {
+         if (!isAutoScrollActive) {
+
+            setIsAutoScrollActive(true)
+            //console.log('Включили автоскролл')
+         }
+
+      } else {
+         if (isAutoScrollActive) {
+            setIsAutoScrollActive(false)
+            //console.log('ВЫКЛЮЧИЛИ автоскролл')
+         }
+      }
+
+      // console.log(element.scrollHeight, element.scrollTop,
+      //    differenceWhatWeSee, element.clientHeight, value)
+
+   }
 
    useEffect(() => {
 
-         const messageHandler = (e: MessageEvent) => {
-            const newMassages = JSON.parse(e.data)
+      if (isAutoScrollActive) {
+         setTimeout(() => {
+            messagesAnchorRef.current?.scrollIntoView({behavior: 'smooth'})
+         }, 500)
+      }
+      // eslint-disable-next-line
+   }, [messages])
 
-            setMessages((prevMessages) => [...prevMessages, ...newMassages])
-         }
-
-         wsChannel?.addEventListener('message', messageHandler)
-
-         return () => {
-            wsChannel?.removeEventListener('message', messageHandler)
-         }
-
-      }, [wsChannel]
-   )
 
    return (
-      <div style={{height: '400px', overflowY: 'auto'}}>
-         {messages.map((m, index) => {
-            const uniqueId = uniqueIdGetTimeInStringPlusIndex(index)
-            return <MessageChat key={uniqueId} message={m} />
+      <div style={{height: '400px', overflowY: 'auto'}} onScroll={onScrollHandler}>
+         {messages.map((m) => {
+            return <MessageChat key={m.id} message={m} />
          })}
+         <div ref={messagesAnchorRef}>
+         </div>
       </div>
    )
 }
 
 
-const MessageChat: React.FC<{ message: ChatMessagesType }> = ({message}) => {
-
-
+const MessageChat: React.FC<{ message: ChatMessagesApiType }> = ({message}) => {
    return (
       <div>
          <img src={message.photo} style={{width: '30px'}} alt={message.userName} />
@@ -126,39 +147,13 @@ const MessageChat: React.FC<{ message: ChatMessagesType }> = ({message}) => {
 }
 
 
-const AddMessageForm: React.FC<{
-   wsChannel: WebSocket | null
-   setWsChannelOpen: any
-   isWsChannelOpen: boolean
-}> = ({wsChannel, setWsChannelOpen, isWsChannelOpen}) => {
+const AddMessageForm: React.FC<{ isAuth: boolean }> = ({isAuth}) => {
 
    const [message, setMessage] = useState('')
-   const [readyStatus, setReadyStatus] = useState<'pending' | 'ready'>('pending')
 
+   const status = useSelector((state: AppStateGlobalType) => state.chat.status)
 
-   console.log(readyStatus, outputDateSeconds())
-
-
-   useEffect(() => {
-
-      const openHandler = () => {
-         console.log('open с addEventListener', outputDateSeconds())
-
-         console.log(readyStatus)
-
-         setReadyStatus('ready')
-
-         setWsChannelOpen(true)
-      }
-
-      wsChannel?.addEventListener('open', openHandler)
-
-      return () => {
-         wsChannel?.removeEventListener('open', openHandler)
-      }
-
-// eslint-disable-next-line
-   }, [wsChannel])
+   const dispatch = useDispatch()
 
 
    //region Description
@@ -170,34 +165,56 @@ const AddMessageForm: React.FC<{
       onSendMessage()
    }
 
+   const isDisabledButton = status !== 'ready'
+
+
    const onKeyPressInTextArea = (event: any) => {
+
       if (event.ctrlKey && event.code === 'Enter') {
-         onSendMessage()
+
+         if (isDisabledButton) {
+
+            console.log(
+               'хотел отправить сообщение через Ctrl + Enter в момент подключения')
+            return
+
+         } else {
+            onSendMessage()
+         }
+
+
       }
    }
 
    const onSendMessage = () => {
+
       if (!message) {
          alert('Пустое сообщение невозможно отправить!')
          return
       }
 
-      if (message.length > 100) {
+      const date = new Date()
+      const time = String(
+         date.getHours()
+         + ':' + date.getMinutes()
+      )
+
+      const messageWithTime = `${message} (${time})`
+
+      if (messageWithTime.length > 100) {
          alert(
             `Можно отправлять не более 100 знаков,
-            а сейчас уже ${message.length}`)
+            а сейчас уже ${messageWithTime.length}`)
          return
       }
 
-      wsChannel?.send(message)
+      console.log('отправили сообщение', outputDateSeconds())
+
+      dispatch(sendMessage(messageWithTime))
 
       setMessage('')
 
    }
-
-   const isDisabledButton = wsChannel === null
-      || readyStatus !== 'ready'
-      || !isWsChannelOpen
 
 
    const placeholderText =
@@ -218,6 +235,15 @@ const AddMessageForm: React.FC<{
          </div>
 
          <div>
+            {isAuth
+               ? ''
+               : 'Chat works only for login users!'
+
+            }
+         </div>
+
+
+         <div>
             {isDisabledButton
                ? <Spin />
                : <button
@@ -234,4 +260,5 @@ export default ChatPage
 
 
 //текст длинной более 100 знаков и без косых здесь (тут спам - ааапппппппппннннннннпппппп) и тут конец
-//console.log('ушли с компоненты AddMessageForm', outputDateSeconds())
+//текст длинной более 92 знаков и без косых здесь (тут спам - аааппппппп5ппнннннннппппп) и тут
+//console.log('реф2', outputDateSeconds())
