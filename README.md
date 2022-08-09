@@ -2,7 +2,7 @@
 
 ### Deployment
 
-Link to github-page where publish this project: [https://maxim-saharov.github.io/ReactKamasutra/#/developers](https://maxim-saharov.github.io/ReactKamasutra/#/developers)
+Link to github-page where publish this project: [https://maxim-saharov.github.io/ReactKamasutra/](https://maxim-saharov.github.io/ReactKamasutra/)
 
 From Ukraine watch with VPN.
 
