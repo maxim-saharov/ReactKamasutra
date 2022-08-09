@@ -20,3 +20,8 @@
 /*   !*background-color: #0000ff;*!*/
 /*   font-weight: bold;*/
 /*}*/
+
+.containerMy {
+   width: 1140px;
+   margin: 0 auto;
+}

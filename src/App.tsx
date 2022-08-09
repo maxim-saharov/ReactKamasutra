@@ -1,7 +1,7 @@
 //
 import React, {Suspense} from 'react'
 import './App.css'
-import {Link, Navigate, Route, Routes} from 'react-router-dom'
+import {Link, Route, Routes} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {initializeApp} from './redux/app-reducer'
 import Preloader from './components/common/Preloader/Preloader'
@@ -10,6 +10,7 @@ import News from './components/News/News'
 import {AppStateGlobalType} from './redux/redux-store'
 import {LoginPage} from './components/Login/Login'
 import {NotFound} from './components/common/NotFound/NotFound'
+import {Home} from './components/Home/Home'
 import {Breadcrumb, Layout, Menu} from 'antd'
 import {HeaderComponent} from './components/Header/HeaderComponent'
 import type {MenuProps} from 'antd/es/menu'
@@ -74,12 +75,12 @@ const itemsSideMenu: MenuItem[] = [
 
    getItem('Settings', 'Settings', <SettingOutlined />, [
       getItem(
-         <Link to="/news">
+         <Link to='/news'>
             News
          </Link>,
          'News'),
       getItem(
-         <Link to="/22404">
+         <Link to='/22404'>
             Music
          </Link>,
          'Music')
@@ -112,7 +113,13 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
 
    render() {
       if (!this.props.initialized) {
-         return <Preloader />
+         return (
+            <div className='containerMy'>
+               <Preloader />
+               <Home />
+            </div>)
+
+         // return
       }
 
       return (
@@ -132,16 +139,18 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>App</Breadcrumb.Item>
                </Breadcrumb>
-               <Layout className="site-layout-background" style={{padding: '24px 0'}}>
-                  <Sider className="site-layout-background" width={200}>
-                     <Menu mode="inline" style={{height: '100%'}} items={itemsSideMenu} />
+               <Layout className='site-layout-background' style={{padding: '24px 0'}}>
+                  <Sider className='site-layout-background' width={200}>
+                     <Menu mode='inline' style={{height: '100%'}} items={itemsSideMenu} />
                   </Sider>
                   <Content style={{padding: '0 24px', minHeight: 280}}>
                      <Suspense fallback={<Preloader />}>
                         <Routes>
                            <Route
-                              path="/"
-                              element={<Navigate to="/profile" />} />
+                              path='/'
+                              // element={<Navigate to="/profile" />}
+                              element={<Home />}
+                           />
                            <Route
                               path='/profile/:userId'
                               element={<ProfileContainer />} />

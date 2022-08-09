@@ -18,7 +18,8 @@ type LoginResultCode = ResultCodeEnum | ResultCodeForCaptchaEnum
 export const authAPI = {
 
    me() {
-      return instance.get<APIResponseType<MeResponseDataType>>(`auth/me`).then(res => res.data)
+      return instance.get<APIResponseType<MeResponseDataType>>(`auth/me`)
+         .then(res => res.data)
    },
 
    login(values: ValueObjLoginType) {

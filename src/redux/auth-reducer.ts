@@ -77,9 +77,7 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
       }
 
    } catch (error: any) {
-
-      console.log(error.response.status)
-      console.log(error)
+      console.log(error.message)
    }
 }
 
