@@ -3,7 +3,7 @@ import styles from './ProfileInfo.module.css'
 import React, {ChangeEvent, useState} from 'react'
 import Preloader from '../../common/Preloader/Preloader'
 import ProfileStatusWithHooks from './ProfileStatusWithHooks'
-import userPhoto from '../../../assets/images/user.jpg'
+import userPhoto from '../../../assets/images/user2.jpg'
 import ProfileDataForm from './ProfileDataForm'
 import {ContactsType, ProfileType} from '../../../types/types'
 

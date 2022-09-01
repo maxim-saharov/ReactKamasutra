@@ -14,11 +14,13 @@ const {Header} = Layout
 
 const itemsHeader: MenuItem[] = [
    getItem(
-      <Link to='/'>
-         Home
+      <Link to='/developers'>
+         Developers
       </Link>,
-      'Home',
-      <AppstoreOutlined />
+      'DevelopersHeader',
+      // это типо ключ по которому потом в selectedKeys
+      // указываем и будет по умолчанию подсвечиваться
+      <AppstoreOutlined />, // это просто какая будет картинка из коллекции antd
    )
 ]
 
@@ -34,26 +36,32 @@ export const HeaderComponent: React.FC = () => {
    }
 
    return (
-      <Header className="header">
+      <Header className='header'>
          <header>
             <Row>
+
                <Col span={3}>
-                  <img className={s.headerPhoto}
-                       src={'https://www.logodesign.net/images/illustration-logo.png'}
-                       alt={'header-illustration-logo'}
-                  />
+                  <a
+                     href={`#`}
+                  >
+                     <img className={s.headerPhoto}
+                          src={'https://www.logodesign.net/images/illustration-logo.png'}
+                          alt={'header-illustration-logo'}
+                     />
+                  </a>
+
                </Col>
 
                <Col span={4}>
-                  <Menu theme="dark" mode="horizontal" items={itemsHeader}
-                        selectedKeys={['']}
+                  <Menu theme='dark' mode='horizontal' items={itemsHeader}
+                        selectedKeys={['DevelopersHeader']}
                   />
                </Col>
 
                <Col span={17}>
                   {isAuth
                      ? <div>
-                        <Avatar alt={login || ''} src="https://joeschmoe.io/api/v1/random" />
+                        <Avatar alt={login || ''} src='https://joeschmoe.io/api/v1/random' />
                         <span className={s.loginBlockIsAuth}>
                            {login} - <Button
                            onClick={logoutCallback}>

@@ -9,6 +9,7 @@ import {Navigate} from 'react-router-dom'
 import StyleVal from '../../utils/validators/ErrorMessage.module.css'
 import s from './Login.module.css'
 import {AppStateGlobalType} from '../../redux/redux-store'
+import News from '../News/News'
 
 const validationSchema = Yup.object().shape({
    password: Yup.string()
@@ -107,7 +108,7 @@ export const LoginPage: React.FC = () => {
                            {ErrorMessageWrapper}
                         </ErrorMessage>
 
-                        <div>
+                        <div className={s.marginTop7px}>
                            <Field
                               name={'password'}
                               type={'password'}
@@ -117,7 +118,7 @@ export const LoginPage: React.FC = () => {
                            {ErrorMessageWrapper}
                         </ErrorMessage>
 
-                        <div>
+                        <div className={s.marginTop7px}>
                            <Field
                               type={'checkbox'}
                               name={'rememberMe'}
@@ -127,6 +128,7 @@ export const LoginPage: React.FC = () => {
 
                         <button type={'submit'}
                                 disabled={isSubmitting}
+                                className={s.marginTop7px}
                         >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
 
                      </div>
@@ -137,7 +139,7 @@ export const LoginPage: React.FC = () => {
          </Formik>
 
          <div>
-            ...
+            <News/>
          </div>
 
       </div>

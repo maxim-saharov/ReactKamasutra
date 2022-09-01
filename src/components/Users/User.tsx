@@ -1,7 +1,7 @@
 //
 import React from 'react'
 import styles from './users.module.css'
-import userPhoto from '../../assets/images/user.jpg'
+import userPhoto from '../../assets/images/user2.jpg'
 import {NavLink} from 'react-router-dom'
 import {UserType} from '../../types/types'
 

@@ -25,3 +25,16 @@
    width: 1140px;
    margin: 0 auto;
 }
+
+.created-by {
+   text-align: center;
+   margin-bottom: 10px;
+}
+
+.pad-left-10px {
+   padding-left: 7px;
+}
+
+.redColor {
+   color: red;
+}

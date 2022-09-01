@@ -10,7 +10,6 @@ import News from './components/News/News'
 import {AppStateGlobalType} from './redux/redux-store'
 import {LoginPage} from './components/Login/Login'
 import {NotFound} from './components/common/NotFound/NotFound'
-import {Home} from './components/Home/Home'
 import {Breadcrumb, Layout, Menu} from 'antd'
 import {HeaderComponent} from './components/Header/HeaderComponent'
 import type {MenuProps} from 'antd/es/menu'
@@ -116,7 +115,8 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
          return (
             <div className='containerMy'>
                <Preloader />
-               <Home />
+               {/*<Home />*/}
+               <News />
             </div>)
 
          // return
@@ -149,7 +149,8 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                            <Route
                               path='/'
                               // element={<Navigate to="/profile" />}
-                              element={<Home />}
+                              // element={<Home />}
+                              element={<News />}
                            />
                            <Route
                               path='/profile/:userId'
@@ -182,8 +183,29 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                   </Content>
                </Layout>
             </Content>
-            <Footer style={{textAlign: 'center'}}>
-               Samurai Social Network ©2022 Created by IT-KAMASUTRA/Maxim Saharov
+            <Footer style={{textAlign: 'center', marginBottom: '10px'}}>
+               <div className='created-by'>
+                  Samurai Social Network ©2022 Created by
+
+                  <a
+                     href={`https://maxim-saharov.com.ua`}
+                     target='_blank' rel='noopener noreferrer'
+                     className='pad-left-10px'
+                  >
+                     Maxim Saharov
+                  </a>
+
+                  <span className='pad-left-10px'>|</span>
+
+                  <a
+                     href={`https://github.com/maxim-saharov/ReactKamasutra`}
+                     target='_blank' rel='noopener noreferrer'
+                     className='pad-left-10px'
+                  >
+                     GitHub
+                  </a>
+
+               </div>
             </Footer>
          </Layout>
       )

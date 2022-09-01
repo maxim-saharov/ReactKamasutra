@@ -2,3 +2,9 @@
 .newsBlock {
    padding: 10px;
 }
+
+
+.someTab {
+   display: inline-block;
+   width: 6px;
+}
