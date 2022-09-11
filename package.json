@@ -1,6 +1,6 @@
 {
-  "name": "my-app1",
-  "version": "0.1.0",
+  "name": "ReactKamasutra",
+  "version": "1.1.0",
   "homepage": "https://maxim-saharov.github.io/ReactKamasutra",
   "private": true,
   "dependencies": {

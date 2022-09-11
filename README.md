@@ -1,11 +1,9 @@
 
-### ⛳️ Deployment
-
-***
+## Samurai Social Network
 
 > #### `From Ukraine watch with VPN.`
 
-#### Link to where publishes this project: [https://maxim-saharov.github.io/ReactKamasutra](https://maxim-saharov.github.io/ReactKamasutra)
+#### Link where publishes this project: [https://maxim-saharov.github.io/ReactKamasutra](https://maxim-saharov.github.io/ReactKamasutra)
 
 Registration and other functional works.   
 For test use:  
@@ -18,7 +16,7 @@ I will give you my own login and password.
 [My profile in this project](https://maxim-saharov.github.io/ReactKamasutra/#/profile/23275) 
 
 
-Link to where publish other projects: [https://maxim-saharov.com.ua](https://maxim-saharov.com.ua)
+Link where publish other projects: [https://maxim-saharov.com.ua](https://maxim-saharov.com.ua)
 
 ***
 
@@ -36,27 +34,29 @@ https://gist.github.com/rxaviers/7360908
 https://dillinger.io/
 )
 
-
-If you want deployment at your PC:
+### ⛳️ Deployment
 
 * clone project
-* yarn install (or npm install)
-* yarn start (or npm start)
-
-And you can see project on [http://localhost:3000](http://localhost:3000 )
+```shell
+npm install
+```
+```shell
+npm run start
+```
+> You can see project on [http://localhost:3000](http://localhost:3000)  
 
 ***
 
-##### Tech stack:
+### Tech stack:
 
-* React JSX, CSS
-* Ant Design, Formik
+* React, TypeScript
+* Ant Design, Formik, CSS
 * Responsive Design
-* TypeScript, React Hooks, Redux Thunk, HOC, Reselect, React Router 
+* React Hooks, Redux Thunk, HOC, Reselect, React Router 
 * social-network.samuraijs.com API, Axios
 * Registration, Captcha, Pagination, Chat with WebSocket
 * Git, GitHub
 
-#### If you like 👍 this project don't forget to turn on a star 💛 for it)
+### If you like 👍 this project don't forget to turn on a star 💛 for it)
 
 
