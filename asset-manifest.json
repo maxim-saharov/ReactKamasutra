@@ -1,26 +1,27 @@
 {
   "files": {
-    "main.css": "/ReactKamasutra/static/css/main.bf3e4baf.css",
-    "main.js": "/ReactKamasutra/static/js/main.15cc19ee.js",
+    "main.css": "/ReactKamasutra/static/css/main.62a530eb.css",
+    "main.js": "/ReactKamasutra/static/js/main.d3551ca2.js",
     "static/css/780.4a6d1852.chunk.css": "/ReactKamasutra/static/css/780.4a6d1852.chunk.css",
-    "static/js/780.5e6afcee.chunk.js": "/ReactKamasutra/static/js/780.5e6afcee.chunk.js",
+    "static/js/780.988d8162.chunk.js": "/ReactKamasutra/static/js/780.988d8162.chunk.js",
     "static/css/369.8fc444c7.chunk.css": "/ReactKamasutra/static/css/369.8fc444c7.chunk.css",
-    "static/js/369.93f25c59.chunk.js": "/ReactKamasutra/static/js/369.93f25c59.chunk.js",
-    "static/js/458.9d40f1a8.chunk.js": "/ReactKamasutra/static/js/458.9d40f1a8.chunk.js",
-    "static/js/787.cc4e593a.chunk.js": "/ReactKamasutra/static/js/787.cc4e593a.chunk.js",
+    "static/js/369.7ccc55ca.chunk.js": "/ReactKamasutra/static/js/369.7ccc55ca.chunk.js",
+    "static/js/458.10b249d2.chunk.js": "/ReactKamasutra/static/js/458.10b249d2.chunk.js",
+    "static/js/787.1ee0db5c.chunk.js": "/ReactKamasutra/static/js/787.1ee0db5c.chunk.js",
     "static/media/user2.jpg": "/ReactKamasutra/static/media/user2.2f5125f63114e18b3b22.jpg",
+    "static/media/logo.png": "/ReactKamasutra/static/media/logo.18970b3aeca3d602a876.png",
     "index.html": "/ReactKamasutra/index.html",
-    "main.bf3e4baf.css.map": "/ReactKamasutra/static/css/main.bf3e4baf.css.map",
-    "main.15cc19ee.js.map": "/ReactKamasutra/static/js/main.15cc19ee.js.map",
+    "main.62a530eb.css.map": "/ReactKamasutra/static/css/main.62a530eb.css.map",
+    "main.d3551ca2.js.map": "/ReactKamasutra/static/js/main.d3551ca2.js.map",
     "780.4a6d1852.chunk.css.map": "/ReactKamasutra/static/css/780.4a6d1852.chunk.css.map",
-    "780.5e6afcee.chunk.js.map": "/ReactKamasutra/static/js/780.5e6afcee.chunk.js.map",
+    "780.988d8162.chunk.js.map": "/ReactKamasutra/static/js/780.988d8162.chunk.js.map",
     "369.8fc444c7.chunk.css.map": "/ReactKamasutra/static/css/369.8fc444c7.chunk.css.map",
-    "369.93f25c59.chunk.js.map": "/ReactKamasutra/static/js/369.93f25c59.chunk.js.map",
-    "458.9d40f1a8.chunk.js.map": "/ReactKamasutra/static/js/458.9d40f1a8.chunk.js.map",
-    "787.cc4e593a.chunk.js.map": "/ReactKamasutra/static/js/787.cc4e593a.chunk.js.map"
+    "369.7ccc55ca.chunk.js.map": "/ReactKamasutra/static/js/369.7ccc55ca.chunk.js.map",
+    "458.10b249d2.chunk.js.map": "/ReactKamasutra/static/js/458.10b249d2.chunk.js.map",
+    "787.1ee0db5c.chunk.js.map": "/ReactKamasutra/static/js/787.1ee0db5c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bf3e4baf.css",
-    "static/js/main.15cc19ee.js"
+    "static/css/main.62a530eb.css",
+    "static/js/main.d3551ca2.js"
   ]
 }
