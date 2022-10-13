@@ -8,6 +8,7 @@ import {getItem, MenuItem} from '../../App'
 import {useDispatch, useSelector} from 'react-redux'
 import {selectCurrentUserLogin, selectIsAuth} from '../../redux/auth-selectors'
 import {logout} from '../../redux/auth-reducer'
+import logo from '../../assets/images/logo.png'
 
 
 const {Header} = Layout
@@ -20,7 +21,7 @@ const itemsHeader: MenuItem[] = [
       'DevelopersHeader',
       // это типо ключ по которому потом в selectedKeys
       // указываем и будет по умолчанию подсвечиваться
-      <AppstoreOutlined />, // это просто какая будет картинка из коллекции antd
+      <AppstoreOutlined /> // это просто какая будет картинка из коллекции antd
    )
 ]
 
@@ -45,7 +46,7 @@ export const HeaderComponent: React.FC = () => {
                      href={`#`}
                   >
                      <img className={s.headerPhoto}
-                          src={'https://www.logodesign.net/images/illustration-logo.png'}
+                          src={logo}
                           alt={'header-illustration-logo'}
                      />
                   </a>

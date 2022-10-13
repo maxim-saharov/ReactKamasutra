@@ -1,20 +1,17 @@
-
 ## Samurai Social Network
-
-> #### `From Ukraine watch with VPN.`
 
 #### Link where publishes this project: [https://maxim-saharov.github.io/ReactKamasutra](https://maxim-saharov.github.io/ReactKamasutra)
 
-Registration and other functional works.   
+Authorization and other functional works.   
 For test use:  
 Email: free@samuraijs.com  
 Password: free  
 If some functional works incorrectly in test account,   
-or if you have some questions, or you want full access, write me in [Linkedin](https://www.linkedin.com/in/maxim-saharov/)  
+or if you have some questions, or you want full access, write me
+in [Linkedin](https://www.linkedin.com/in/maxim-saharov/)  
 I will give you my own login and password.
 
-[My profile in this project](https://maxim-saharov.github.io/ReactKamasutra/#/profile/23275) 
-
+[My profile in this project](https://maxim-saharov.github.io/ReactKamasutra/#/profile/23275)
 
 Link where publish other projects: [https://maxim-saharov.com.ua](https://maxim-saharov.com.ua)
 
@@ -37,13 +34,16 @@ https://dillinger.io/
 ### ⛳️ Deployment
 
 * clone project
+
 ```shell
 npm install
 ```
+
 ```shell
 npm run start
 ```
-> You can see project on [http://localhost:3000](http://localhost:3000)  
+
+> You can see project on [http://localhost:3000](http://localhost:3000)
 
 ***
 
@@ -52,9 +52,9 @@ npm run start
 * React, TypeScript
 * Ant Design, Formik, CSS
 * Responsive Design
-* React Hooks, Redux Thunk, HOC, Reselect, React Router 
+* React Hooks, Redux Thunk, HOC, Reselect, React Router
 * social-network.samuraijs.com API, Axios
-* Registration, Captcha, Pagination, Chat with WebSocket
+* Authorization, Captcha, Pagination, Chat with WebSocket
 * Git, GitHub
 
 ### If you like 👍 this project don't forget to turn on a star 💛 for it)

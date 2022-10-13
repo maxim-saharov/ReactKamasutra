@@ -9,7 +9,7 @@ export const NotFound: React.FC = () => {
 
    return (
       <div className={s.notFoundBlock}>
-         <div> ...Page 404</div>
+         <div> Page 404</div>
          <div>< br /></div>
          <div>
             <Link to='/'>

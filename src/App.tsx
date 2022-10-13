@@ -115,11 +115,8 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
          return (
             <div className='containerMy'>
                <Preloader />
-               {/*<Home />*/}
                <News />
             </div>)
-
-         // return
       }
 
       return (
@@ -148,8 +145,6 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                         <Routes>
                            <Route
                               path='/'
-                              // element={<Navigate to="/profile" />}
-                              // element={<Home />}
                               element={<News />}
                            />
                            <Route
@@ -165,7 +160,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                            <Route
                               path='/developers'
                               element={<UserPage
-                                 pageTitle={'Самураи'} />} />
+                                 pageTitle={'Samurais'} />} />
                            <Route
                               path='/login'
                               element={<LoginPage />} />

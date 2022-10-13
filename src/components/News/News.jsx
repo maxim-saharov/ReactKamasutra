@@ -11,14 +11,10 @@ const News = () => {
 
       <div className={s.newsBlock}>
 
-         <div className='redColor'>
-            С Украины смотреть только через VPN. Иначе ничего не загрузится и залогиниться тоже не получится!
-         </div>
-
          <div>
-            Тестовые доступы для этого проекта: <br />
+            Test access for this project: <br /> <br />
             Email: free@samuraijs.com
-            <div className={s.someTab}> </div>
+            <div className={s.someTab}></div>
             <button
                onClick={() => navigator.clipboard.writeText( 'free@samuraijs.com' )}
             >
@@ -31,55 +27,55 @@ const News = () => {
 
          <div>
             <br />
-            Test - userId - 1079 - тестовый профиль - его можно открыть по
-            <div className={s.someTab}> </div>
+            Test - userId - 1079 - test profile - it can be opened by
+            <div className={s.someTab}></div>
             <a
                href='https://maxim-saharov.github.io/ReactKamasutra/#/profile/1079'
                target='_blank'
                rel='noopener noreferrer'
             >
-               этой ссылке
+               this link
             </a>
          </div>
 
 
          <div>
             <br />
-            Maxim Saharov - userId - 23275 - мой профиль - его можно открыть по
-            <div className={s.someTab}> </div>
+            Maxim Saharov - userId - 23275 - my profile - it can be opened by
+            <div className={s.someTab}></div>
             <a
                href='https://maxim-saharov.github.io/ReactKamasutra/#/profile/23275'
                target='_blank'
                rel='noopener noreferrer'
             >
-               этой ссылке
+               this link
             </a>
          </div>
 
          <div>
             <br />
-            И смотрите
-            <div className={s.someTab}> </div>
+            And see
+            <div className={s.someTab}></div>
             <a
                href='https://github.com/maxim-saharov/ReactKamasutra'
                target='_blank'
                rel='noopener noreferrer'
             >
-               в моем репозитории GitHub полный код,
+               my GitHub repo for the full code,
             </a>
 
             <br />
-            буду рад за поставленные звездочки в нем) <br />
-            всем спасибо и приятного обучения)
+            I will be happy for the stars for it) <br />
+            Thank you all and happy learning)
          </div>
 
 
          <div>
             <br />
-            Если под тестовым аккаунтом некоторый функционал работает некорректно или <br />
-            если остались какие то вопросы или Вы хотите получить полный доступ,<br />
-            напишите мне в
-            <div className={s.someTab}> </div>
+            If some functional works incorrectly in test account, <br />
+            or if you have some questions,<br />
+            or you want full access, write me in
+            <div className={s.someTab}></div>
             <a
                href='https://www.linkedin.com/in/maxim-saharov/'
                target='_blank'
@@ -88,7 +84,7 @@ const News = () => {
                Linkedin
             </a>
             <br />
-            Я дам свой личный логин и пароль.
+            I will give you my own login and password.
          </div>
 
       </div>

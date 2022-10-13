@@ -36,7 +36,7 @@ export const LoginPage: React.FC = () => {
 
    return (
       <div className={s.loginBlock}>
-         <h2> ... Login page </h2>
+         <h2> Login page </h2>
 
          <Formik
             initialValues={{
@@ -73,38 +73,38 @@ export const LoginPage: React.FC = () => {
                      <div>
 
                         {values.general &&
-                        <div>
-                           _.{values.general} - with setFieldValue
-                        </div>}
+                           <div>
+                              _.{values.general} - with setFieldValue
+                           </div>}
 
                         {status &&
-                        <div className={StyleVal.validationErrorMessage}>
-                           ..{status}
-                        </div>}
+                           <div className={StyleVal.validationErrorMessage}>
+                              ..{status}
+                           </div>}
 
                         {status && captchaUrl &&
-                        <div>
-
                            <div>
-                              <img src={captchaUrl} alt={status} />
-                           </div>
 
-                           <div>
-                              <Field
-                                 name={'captcha'}
-                                 type={'text'} />
-                           </div>
+                              <div>
+                                 <img src={captchaUrl} alt={status} />
+                              </div>
 
-                        </div>
+                              <div>
+                                 <Field
+                                    name={'captcha'}
+                                    type={'text'} />
+                              </div>
+
+                           </div>
                         }
 
                         <div>
                            <Field
                               name={'email'}
                               type={'text'}
-                              placeholder={'e-mail'} />
+                              placeholder={'email'} />
                         </div>
-                        <ErrorMessage name="email">
+                        <ErrorMessage name='email'>
                            {ErrorMessageWrapper}
                         </ErrorMessage>
 
@@ -114,7 +114,7 @@ export const LoginPage: React.FC = () => {
                               type={'password'}
                               placeholder={'password'} />
                         </div>
-                        <ErrorMessage name="password">
+                        <ErrorMessage name='password'>
                            {ErrorMessageWrapper}
                         </ErrorMessage>
 
@@ -130,6 +130,7 @@ export const LoginPage: React.FC = () => {
                                 disabled={isSubmitting}
                                 className={s.marginTop7px}
                         >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
+                        <br /><br />
 
                      </div>
                   </Form>
@@ -139,7 +140,7 @@ export const LoginPage: React.FC = () => {
          </Formik>
 
          <div>
-            <News/>
+            <News />
          </div>
 
       </div>
