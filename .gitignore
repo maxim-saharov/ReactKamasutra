@@ -27,5 +27,8 @@ yarn-error.log*
 /.idea/
 /.vscode/
 /src/saharovData.ts
-#git rm --cached yarn.lock
-#git commit -m "Remove smart.php only from git"
+# git rm --cached yarn.lock
+# git commit -m "Remove smart.php only from git"
+# how delete folder only from git
+# git rm -r --cached .idea
+# git commit -m "Remove folder .idea and .vscode only from git"
